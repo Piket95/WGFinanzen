@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="@drawable/background_audimax"
+    android:orientation="vertical"
+    android:padding="30dp">
+
+    <!--Appbar wird in .java entfernt mit "getSupportActionBar().hide();" -->
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:contentDescription="logo"
+        android:src="@drawable/logo_hskl"
+        android:layout_marginBottom="30dp"/>
+
+    <android.support.v7.widget.CardView
+        app:cardCornerRadius="4dp"
+        android:id="@+id/card_login"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardBackgroundColor="@color/colorCardLogin">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:textAlignment="center"
+                android:textSize="@dimen/heading_22sp"
+                android:textColor="@color/colorTextBlack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/login"
+                android:layout_marginBottom="10dp"/>
+
+            <EditText
+                android:id="@+id/txt_login_mail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/e_mail_address_hint"
+                android:inputType="textEmailAddress"
+                android:layout_marginBottom="10dp"/>
+
+            <EditText
+                android:id="@+id/txt_login_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:layout_marginBottom="20dp"/>
+
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/login"
+                android:backgroundTint="@color/colorPrimary"
+                android:textColor="@color/colorTextWhite"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="bottom">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/not_registered_yet"
+                    android:textAlignment="center"/>
+
+                <TextView
+                    android:id="@+id/btn_show_register_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/signup"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"/>
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:visibility="gone"
+        app:cardCornerRadius="4dp"
+        android:id="@+id/card_register"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardBackgroundColor="@color/colorCardLogin">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:textAlignment="center"
+                android:textSize="@dimen/heading_22sp"
+                android:textColor="@color/colorTextBlack"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/register"
+                android:layout_marginBottom="10dp"/>
+
+            <EditText
+                android:id="@+id/txt_register_mail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/e_mail_address_hint"
+                android:inputType="textEmailAddress"
+                android:layout_marginBottom="10dp"/>
+
+            <EditText
+                android:id="@+id/txt_register_password_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:layout_marginBottom="10dp"/>
+
+            <EditText
+                android:id="@+id/txt_register_password_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Confirm Password"
+                android:inputType="textPassword"
+                android:layout_marginBottom="10dp"/>
+
+            <Button
+                android:id="@+id/btn_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/register"
+                android:backgroundTint="@color/colorPrimary"
+                android:textColor="@color/colorTextWhite"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="bottom">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/already_registered"
+                    android:textAlignment="center"/>
+
+                <TextView
+                    android:id="@+id/btn_show_login_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/login"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
