@@ -4,79 +4,77 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
     android:background="@drawable/background_audimax"
     android:orientation="vertical"
-    android:padding="30dp">
-
-    <!--Appbar wird in .java entfernt mit "getSupportActionBar().hide();" -->
+    android:padding="30dp"
+    tools:context=".LoginActivity">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="140dp"
+        android:layout_marginBottom="30dp"
         android:contentDescription="logo"
-        android:src="@drawable/logo_hskl"
-        android:layout_marginBottom="30dp"/>
+        android:src="@drawable/logo_hskl" />
 
     <android.support.v7.widget.CardView
-        app:cardCornerRadius="4dp"
         android:id="@+id/card_login"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardBackgroundColor="@color/colorCardLogin">
+        app:cardBackgroundColor="@color/colorCardLogin"
+        app:cardCornerRadius="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="20dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="20dp">
 
             <TextView
-                android:textAlignment="center"
-                android:textSize="@dimen/heading_22sp"
-                android:textColor="@color/colorTextBlack"
+                android:id="@+id/lbl_Login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/login"
                 android:layout_marginBottom="10dp"
-                android:id="@+id/lbl_Login"/>
+                android:text="@string/login"
+                android:textAlignment="center"
+                android:textColor="@color/colorTextBlack"
+                android:textSize="@dimen/heading_22sp" />
 
             <EditText
                 android:id="@+id/txt_login_mail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:hint="@string/e_mail_address_hint"
-                android:inputType="textEmailAddress"
-                android:layout_marginBottom="10dp"/>
+                android:inputType="textEmailAddress" />
 
             <EditText
                 android:id="@+id/txt_login_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:hint="Password"
-                android:inputType="textPassword"
-                android:layout_marginBottom="20dp"/>
+                android:inputType="textPassword" />
 
             <Button
                 android:id="@+id/btn_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/login"
                 android:backgroundTint="@color/colorPrimary"
-                android:textColor="@color/colorTextWhite"/>
+                android:text="@string/login"
+                android:textColor="@color/colorTextWhite" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="bottom">
+                android:gravity="bottom"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/not_registered_yet"
-                    android:textAlignment="center"/>
+                    android:textAlignment="center" />
 
                 <TextView
                     android:id="@+id/btn_show_register_card"
@@ -84,10 +82,11 @@
                     android:layout_height="wrap_content"
                     android:text="@string/signup"
                     android:textAlignment="center"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary"
+                    android:clickable="true"
+                    android:onClick="toggleCards"/>
 
             </LinearLayout>
-
 
 
         </LinearLayout>
@@ -95,72 +94,72 @@
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
-        android:visibility="gone"
-        app:cardCornerRadius="4dp"
         android:id="@+id/card_register"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardBackgroundColor="@color/colorCardLogin">
+        android:visibility="gone"
+        app:cardBackgroundColor="@color/colorCardLogin"
+        app:cardCornerRadius="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="20dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="20dp">
 
             <TextView
                 android:id="@+id/lbl_register"
-                android:textAlignment="center"
-                android:textSize="@dimen/heading_22sp"
-                android:textColor="@color/colorTextBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:text="@string/register"
-                android:layout_marginBottom="10dp"/>
+                android:textAlignment="center"
+                android:textColor="@color/colorTextBlack"
+                android:textSize="@dimen/heading_22sp" />
 
             <EditText
                 android:id="@+id/txt_register_mail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:hint="@string/e_mail_address_hint"
-                android:inputType="textEmailAddress"
-                android:layout_marginBottom="10dp"/>
+                android:inputType="textEmailAddress" />
 
             <EditText
                 android:id="@+id/txt_register_password_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:hint="Password"
-                android:inputType="textPassword"
-                android:layout_marginBottom="10dp"/>
+                android:inputType="textPassword" />
 
             <EditText
                 android:id="@+id/txt_register_password_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:hint="Confirm Password"
-                android:inputType="textPassword"
-                android:layout_marginBottom="10dp"/>
+                android:inputType="textPassword" />
 
             <Button
                 android:id="@+id/btn_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/register"
                 android:backgroundTint="@color/colorPrimary"
-                android:textColor="@color/colorTextWhite"/>
+                android:text="@string/register"
+                android:textColor="@color/colorTextWhite" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="bottom">
+                android:gravity="bottom"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/already_registered"
-                    android:textAlignment="center"/>
+                    android:textAlignment="center" />
 
                 <TextView
                     android:id="@+id/btn_show_login_card"
@@ -168,7 +167,9 @@
                     android:layout_height="wrap_content"
                     android:text="@string/login"
                     android:textAlignment="center"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary"
+                    android:clickable="true"
+                    android:onClick="toggleCards"/>
 
             </LinearLayout>
 
