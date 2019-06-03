@@ -45,14 +45,12 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Inputfelder evtl. anpassen
-                EditText txtMail = findViewById(R.id.txt_login_mail);
+                EditText txtUsername = findViewById(R.id.txt_login_username);
                 EditText txtPassword = findViewById(R.id.txt_login_password);
 
-                if(!TextUtils.isEmpty(txtMail.getText().toString()) || !TextUtils.isEmpty(txtPassword.getText().toString())){
+                if(!TextUtils.isEmpty(txtUsername.getText().toString()) || !TextUtils.isEmpty(txtPassword.getText().toString())){
                     PostRequestLogin postRequestLogin = new PostRequestLogin();
-                    //TODO: API_Key ändern
-                    postRequestLogin.execute(txtMail.getText().toString(), txtPassword.getText().toString(), "8ubqB[uULJmIt8E3gkAa2x7MG7tAdMEdkNCl}kHyc]jP7hFY0JMqNH9Uz8zVjhTN");
+                    postRequestLogin.execute(txtUsername.getText().toString(), txtPassword.getText().toString());
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "Bitte füllen Sie beide Felder aus!", Toast.LENGTH_LONG).show();
@@ -64,14 +62,17 @@ public class LoginActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText txtRegMail = findViewById(R.id.txt_register_mail);
+                EditText txtRegUsername = findViewById(R.id.txt_register_username);
                 EditText txtRegPass = findViewById(R.id.txt_register_password_1);
+                //TODO: 2. Passwortfeld entfernen CODE ÜBERALL!
                 EditText txtRegConfPass = findViewById(R.id.txt_register_password_2);
 
-                if(!TextUtils.isEmpty(txtRegMail.getText().toString()) || !TextUtils.isEmpty(txtRegPass.getText().toString()) || !TextUtils.isEmpty(txtRegConfPass.getText().toString())){
+                if(!TextUtils.isEmpty(txtRegUsername.getText().toString()) || !TextUtils.isEmpty(txtRegPass.getText().toString()) || /*TODO: WEG*/ !TextUtils.isEmpty(txtRegConfPass.getText().toString())){
+
+                    //TODO: IF WEG
                     if(txtRegPass.getText().toString().equals(txtRegConfPass.getText().toString())){
                         PostRequestRegister postRequestRegister = new PostRequestRegister();
-                        postRequestRegister.execute(txtRegMail.getText().toString(), txtRegPass.getText().toString());
+                        postRequestRegister.execute(txtRegUsername.getText().toString(), txtRegPass.getText().toString());
 
                         Log.d("TestApp", "Yay stimmt!");
                     }
@@ -107,9 +108,8 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected User doInBackground(String... strings) {
 
-            String mail = strings[0];
+            String username = strings[0];
             String pass = strings[1];
-            String api_key = strings[2];
 
             runOnUiThread(new Runnable() {
                 @Override
@@ -125,13 +125,12 @@ public class LoginActivity extends AppCompatActivity {
             OkHttpClient client = new OkHttpClient();
 
             RequestBody formBody = new FormBody.Builder()
-                    .add("mail", mail)
-                    .add("pass", pass)
-                    .add("api_key", api_key)
+                    .add("username", username)
+                    .add("password", pass)
                     .build();
 
             Request request = new Request.Builder()
-                    .url("https://flbnet.philippdalheimer.de/api/login/login")
+                    .url("https://hskl.philippdalheimer.de/api/login/login")
                     .post(formBody)
                     .build();
 
@@ -165,6 +164,8 @@ public class LoginActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+
+                    //TODO: Userinformationen zwischenspeichern um eingeloggt zu bleiben! (SharedPreferences)
 
                     if(user != null){
 
@@ -200,6 +201,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    //TODO: nochmal drüber gucken!
     private class PostRequestRegister extends AsyncTask<String, Void, User>{
 
         ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
@@ -207,7 +209,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected User doInBackground(String... strings) {
 
-            String mail = strings[0];
+            String username = strings[0];
             String pass = strings[1];
 
             runOnUiThread(new Runnable() {

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:icon="@drawable/ic_android_white_24dp_placeholder"
+        android:title="Feed"
+        android:id="@+id/nav_feed"/>
+    <item
+        android:icon="@drawable/ic_group_add_white_24dp"
+        android:title="WG beitreten"
+        android:id="@+id/nav_einladen_beitreten"/>
+    <item
+        android:icon="@drawable/ic_flag_white_24dp"
+        android:title="Ziele"
+        android:id="@+id/nav_ziele"/>
+</menu>

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">WG-Finanzen</string>
     <string name="login">Login</string>
-    <string name="e_mail_address_hint">E-Mail Address</string>
+    <string name="username_hint">Username</string>
     <string name="not_registered_yet">Not registered yet?</string>
     <string name="signup">Signup</string>
     <string name="register">Register</string>
