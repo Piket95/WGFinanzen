@@ -22,6 +22,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 //TODO: If Abfrage ob eingeladen werden soll oder beigetreten werden soll!!!
                 return new fragWG_Beitreten();
+//            return new fragBewohner_einladen();
             case 2:
                 return new fragZiele();
         }

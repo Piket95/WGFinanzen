@@ -1,0 +1,62 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+
+    <ImageView
+        android:id="@+id/item_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:src="@android:drawable/ic_dialog_info" />
+
+    <LinearLayout
+        android:id="@+id/linearlayout_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_toEndOf="@+id/item_image"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title Heading"
+            android:textColor="@color/colorTextBlack"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Category?"
+            android:textSize="10dp"
+            android:textColor="@color/colorTextBlack"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/feed_euro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@+id/feed_cent"
+        android:height="35dp"
+        android:gravity="bottom"
+        android:text="23"
+        android:textColor="@color/colorTextBlack"
+        android:textSize="25dp" />
+
+    <TextView
+        android:id="@+id/feed_cent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:height="35dp"
+        android:text=",39 €"
+        android:gravity="bottom"
+        android:textAlignment="textStart"
+        android:textColor="@color/colorTextBlack" />
+
+</RelativeLayout>

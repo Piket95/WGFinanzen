@@ -9,4 +9,9 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="txt_new_article_name">Name</string>
+    <string name="txt_new_article_beschreibung">Beschreibung</string>
+    <string name="txt_new_article_datum">Datum</string>
+    <string name="txt_new_article_preis">Preis</string>
+    <string name="txt_new_article_title">Neuen Artikel hinzufügen</string>
 </resources>

@@ -3,7 +3,7 @@
 
 
     <item
-        android:icon="@drawable/ic_android_white_24dp_placeholder"
+        android:icon="@drawable/ic_line_weight_white_24dp"
         android:title="Feed"
         android:id="@+id/nav_feed"/>
     <item
