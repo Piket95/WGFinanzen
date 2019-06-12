@@ -1,6 +1,7 @@
 package de.philippdalheimer.hskl.eae;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import org.w3c.dom.Text;
 
 import java.io.IOException;
 
+import de.philippdalheimer.hskl.eae.classes.RegResult;
 import de.philippdalheimer.hskl.eae.classes.User;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -28,15 +30,20 @@ import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
+    //TODO: ALLE STRINGS MÜSSEN NOCH IN STRING RESOURCE DATEI AUSGELAGERT WERDEN!
+
     Button btnLogin;
     Button btnRegister;
     CardView loginCard;
     CardView registerCard;
+    Intent main;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        main = new Intent(this, MainActivity.class);
 
         //Versteckt die Autogenerierte Actionbar im oberen Teil der App!
         getSupportActionBar().hide();
@@ -64,12 +71,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 EditText txtRegUsername = findViewById(R.id.txt_register_username);
                 EditText txtRegPass = findViewById(R.id.txt_register_password_1);
-                //TODO: 2. Passwortfeld entfernen CODE ÜBERALL!
                 EditText txtRegConfPass = findViewById(R.id.txt_register_password_2);
 
-                if(!TextUtils.isEmpty(txtRegUsername.getText().toString()) || !TextUtils.isEmpty(txtRegPass.getText().toString()) || /*TODO: WEG*/ !TextUtils.isEmpty(txtRegConfPass.getText().toString())){
+                if(!TextUtils.isEmpty(txtRegUsername.getText().toString()) || !TextUtils.isEmpty(txtRegPass.getText().toString()) || !TextUtils.isEmpty(txtRegConfPass.getText().toString())){
 
-                    //TODO: IF WEG
                     if(txtRegPass.getText().toString().equals(txtRegConfPass.getText().toString())){
                         PostRequestRegister postRequestRegister = new PostRequestRegister();
                         postRequestRegister.execute(txtRegUsername.getText().toString(), txtRegPass.getText().toString());
@@ -173,7 +178,9 @@ public class LoginActivity extends AppCompatActivity {
 
                             progressDialog.cancel();
 
+                            startActivity(main);
                             Toast.makeText(getApplicationContext(), "Anmeldung erfolgreich!", Toast.LENGTH_LONG).show();
+                            finish();
                         }
                         else{
                             Toast.makeText(getApplicationContext(), "Anmeldung fehlgeschlagen! Bitte überprüfen Sie Ihre Eingaben oder registrieren Sie sich!", Toast.LENGTH_LONG).show();
@@ -202,12 +209,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     //TODO: nochmal drüber gucken!
-    private class PostRequestRegister extends AsyncTask<String, Void, User>{
+    private class PostRequestRegister extends AsyncTask<String, Void, RegResult>{
 
         ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
 
         @Override
-        protected User doInBackground(String... strings) {
+        protected RegResult doInBackground(String... strings) {
 
             String username = strings[0];
             String pass = strings[1];
@@ -223,10 +230,75 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
 
-            //TODO: Post Request an API mit Mail und Passwort, sodass der User in Datenbank angelegt wird! Danach Weiterleitung auf Hauptseite mit registriertem Nutzer!
+            OkHttpClient client = new OkHttpClient();
 
+            RequestBody formBody = new FormBody.Builder()
+                    .add("username", username)
+                    .add("password", pass)
+                    .build();
+
+            Request request = new Request.Builder()
+                    .url("https://hskl.philippdalheimer.de/api/member/create")
+                    .post(formBody)
+                    .build();
+
+            try(Response response = client.newCall(request).execute()){
+                if(response.isSuccessful()){
+
+                    String resultResponse = response.body().string();
+
+                    Log.d("TestApp", "Request erfolgreich!");
+                    Log.d("TestApp", resultResponse);
+
+                    Gson gson = new Gson();
+
+                    RegResult regResult = gson.fromJson(resultResponse, RegResult.class);
+
+                    return regResult;
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(final RegResult regResult) {
+
+            if (regResult != null){
+                if(regResult.success){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressDialog.cancel();
+
+                            //TODO: Userinformationen der Klasse übergeben und Created = aktuelles Datum fürs erste!
+
+                            startActivity(main);
+                            Toast.makeText(getApplicationContext(), regResult.message, Toast.LENGTH_LONG).show();
+                            finish();
+                        }
+                    });
+                }
+                else{
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressDialog.cancel();
+
+                            Toast.makeText(getApplicationContext(), regResult.message, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+            else{
+                Toast.makeText(getApplicationContext(), "Irgendetwas scheint schief gelaufen zu sein! Bitte kontaktieren Sie einen Administrator!", Toast.LENGTH_SHORT).show();
+
+            }
+
+            super.onPostExecute(regResult);
         }
     }
 }

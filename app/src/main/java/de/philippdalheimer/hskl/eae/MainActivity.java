@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         navigationView = findViewById(R.id.navigation);
         navigationView.setOnNavigationItemSelectedListener(this);
+
+        //TODO: Get Artikelinformationen sofern bereits einer WG zugeordnet
     }
 
     @Override
