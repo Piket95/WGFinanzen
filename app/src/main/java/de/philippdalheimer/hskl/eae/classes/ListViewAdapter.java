@@ -1,54 +1,61 @@
 package de.philippdalheimer.hskl.eae.classes;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.database.Cursor;
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CursorAdapter;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 import de.philippdalheimer.hskl.eae.R;
 
-//TODO: Von komplett falscher Klasse geerbt (Hier kein CursorAdapter verwenden!!! NEUE ÜBERLEGUNG! ArrayAdapter!?!?
-public class ListViewAdapter extends CursorAdapter {
+public class ListViewAdapter extends ArrayAdapter<Artikel> {
 
-    LayoutInflater layoutInflater;
-    int itemLayout;
+    private Context context;
+    private ArrayList<Artikel> wgArtikelListe;
 
+    public ListViewAdapter(@NonNull Context context, @NonNull ArrayList<Artikel> list) {
+        super(context,0, list);
 
-    public ListViewAdapter(Context context,int itemLayout, Cursor c, int flags) {
-        super(context, c, flags);
-        layoutInflater = LayoutInflater.from(context);
-        this.itemLayout = itemLayout;
+        this.context = context;
+        wgArtikelListe = list;
     }
 
+    @NonNull
     @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        View v = layoutInflater.inflate(itemLayout, parent, false);
-        return v;
-    }
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-    @Override
-    public void bindView(View view, Context context, Cursor cursor) {
-        //ImageView
+        View listItem = convertView;
 
+        if(listItem == null){
+            listItem = LayoutInflater.from(context).inflate(R.layout.main_feed_row_item, parent, false);
+        }
 
-        //TODO: IDs könnten sich geändert haben!
-//        String strTitleHeading = Titel aus Datenbank hier einfügen
-//        TextView txtTitleHeading = view.findViewById(R.id.txt_title_heading);
-//        txtTitleHeading.setText(strTitleHeading);
+        Artikel currentArtikel = wgArtikelListe.get(position);
 
-        //Txt Kategorie
+        //TODO: Image setzen in ListView pro Artikel!
+//        ImageView image = listItem.findViewById(R.id.item_image);
+//        image.setImageResource(currentArtikel.getImage);
 
-        //Txt Euro
-//        String strEuro = Euro Betrag aus Datenbank
-        TextView txtEuro = view.findViewById(R.id.feed_euro);
-        txtEuro.setText(strEuro);
+        TextView txtName = listItem.findViewById(R.id.txt_item_heading);
+        txtName.setText(currentArtikel.name);
 
-        //Txt Cent
-//        String strCent = Cent Betrag aus Datenbank
-        TextView txtCent = view.findViewById(R.id.feed_cent);
-        txtCent.setText(strCent);
+        TextView txtCategory = listItem.findViewById(R.id.txt_item_category);
+        txtName.setText(currentArtikel.category);
+
+        TextView txtEuro = listItem.findViewById(R.id.feed_euro);
+        txtName.setText(currentArtikel.getEuro());
+
+        TextView txtCent = listItem.findViewById(R.id.feed_cent);
+        txtName.setText(currentArtikel.getCent());
+
+        return super.getView(position, convertView, parent);
     }
 }

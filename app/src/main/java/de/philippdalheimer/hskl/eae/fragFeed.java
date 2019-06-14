@@ -8,6 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import de.philippdalheimer.hskl.eae.classes.Artikel;
 import de.philippdalheimer.hskl.eae.classes.ListViewAdapter;
 
 public class fragFeed extends Fragment {
@@ -22,12 +26,13 @@ public class fragFeed extends Fragment {
         View ctx = inflater.inflate(R.layout.fragment_feed, container, false);
 
         listView = ctx.findViewById(R.id.lv_feed);
-        int itemLayout = R.layout.main_feed_row_item;
 
-        ListViewAdapter listViewAdapter = new ListViewAdapter(ctx, listView, null, 0);
+        //TODO: In diese Liste kommen nachher alle Artikel rein, die von GSON aus der JSON ausgelesen wurden!
+        ArrayList<Artikel> artikelListeWg = new ArrayList<>();
+
+        ListViewAdapter listViewAdapter = new ListViewAdapter(getContext(), artikelListeWg);
 
         listView.setAdapter(listViewAdapter);
-
         return ctx;
     }
 }
