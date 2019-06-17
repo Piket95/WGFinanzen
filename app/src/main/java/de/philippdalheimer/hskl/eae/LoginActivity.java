@@ -1,7 +1,9 @@
 package de.philippdalheimer.hskl.eae;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.w3c.dom.Text;
 
@@ -30,7 +33,7 @@ import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-    //TODO: ALLE STRINGS MÜSSEN NOCH IN STRING RESOURCE DATEI AUSGELAGERT WERDEN!
+    //TODO: !ALLE! STRINGS MÜSSEN NOCH IN STRING RESOURCE DATEI AUSGELAGERT WERDEN!
 
     Button btnLogin;
     Button btnRegister;
@@ -144,10 +147,12 @@ public class LoginActivity extends AppCompatActivity {
 
                     String resultResponse = response.body().string();
 
-                    Log.d("TestApp", "Request erfolgreich!");
-                    Log.d("TestApp", resultResponse);
+//                    Log.d("TestApp", "Request erfolgreich!");
+//                    Log.d("TestApp", resultResponse);
 
-                    Gson gson = new Gson();
+                    Gson gson = new GsonBuilder()
+                            .excludeFieldsWithModifiers()
+                            .create();
 
                     User user = gson.fromJson(resultResponse, User.class);
                     user.logUser();
@@ -169,8 +174,6 @@ public class LoginActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-
-                    //TODO: Userinformationen zwischenspeichern um eingeloggt zu bleiben! (SharedPreferences)
 
                     if(user != null){
 
@@ -208,16 +211,17 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    //TODO: nochmal drüber gucken!
     private class PostRequestRegister extends AsyncTask<String, Void, RegResult>{
 
         ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
+        String username;
+        String pass;
 
         @Override
         protected RegResult doInBackground(String... strings) {
 
-            String username = strings[0];
-            String pass = strings[1];
+            this.username = strings[0];
+            this.pass = strings[1];
 
             runOnUiThread(new Runnable() {
                 @Override
@@ -274,11 +278,8 @@ public class LoginActivity extends AppCompatActivity {
                         public void run() {
                             progressDialog.cancel();
 
-                            //TODO: Userinformationen der Klasse übergeben und Created = aktuelles Datum fürs erste!
-
-                            startActivity(main);
                             Toast.makeText(getApplicationContext(), regResult.message, Toast.LENGTH_LONG).show();
-                            finish();
+                            new PostRequestLogin().execute(username, pass);
                         }
                     });
                 }

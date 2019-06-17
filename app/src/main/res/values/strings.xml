@@ -14,4 +14,8 @@
     <string name="txt_new_article_datum">Datum</string>
     <string name="txt_new_article_preis">Preis</string>
     <string name="txt_new_article_title">Neuen Artikel hinzufügen</string>
+
+    <!--Shared Preferences -->
+    <!--<string name="sh_userinformations">sh_userinformations</string>-->
+
 </resources>

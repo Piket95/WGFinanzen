@@ -1,6 +1,6 @@
 package de.philippdalheimer.hskl.eae.classes;
 
-import java.text.DecimalFormat;
+import android.util.Log;
 
 public class Artikel {
 
@@ -14,24 +14,23 @@ public class Artikel {
     public String creator;
     public String category;
 
-    public String getEuro(){
+    public String[] getPreis(){
+        String[] array = preis.split("\\.");
 
-        DecimalFormat df = new DecimalFormat("0");
-
-        return df.format(Double.parseDouble((this.preis)));
+        return array;
     }
 
-    public String getCent(){
-
-        DecimalFormat df = new DecimalFormat("0");
-
-        int euro = Integer.parseInt(getEuro());
-        double erg = Double.parseDouble(this.preis);
-
-        erg = erg - euro;
-
-        erg *= 100;
-
-        return ("," + erg);
+    public void printArtikel(){
+        Log.d("TestApp", "ID: " + id);
+        Log.d("TestApp", "Name: " + name);
+        Log.d("TestApp", "Beschreibung: " + beschreibung);
+        Log.d("TestApp", "Kategorie ID: " + category_id);
+        Log.d("TestApp", "Darum: " + datum);
+        Log.d("TestApp", "Preis: " + preis);
+        Log.d("TestApp", "Euro: " + getPreis()[0]);
+        Log.d("TestApp", "Cent: " + getPreis()[1]);
+        Log.d("TestApp", "Erstellt am: " + created);
+        Log.d("TestApp", "Erstellt von: " + creator);
+        Log.d("TestApp", "Kategorie: " + category);
     }
 }

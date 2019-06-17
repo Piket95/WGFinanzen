@@ -1,9 +1,15 @@
 package de.philippdalheimer.hskl.eae.classes;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class ArtikelVonWG {
 
-    public boolean success;
-    public List<Artikel> artikel;
+    public static boolean success;
+    public static ArrayList<Artikel> artikel;
+
+    public static void printList(){
+        for (Artikel i : artikel){
+            i.printArtikel();
+        }
+    }
 }

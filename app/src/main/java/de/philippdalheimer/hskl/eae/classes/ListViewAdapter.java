@@ -1,8 +1,6 @@
 package de.philippdalheimer.hskl.eae.classes;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -48,14 +46,14 @@ public class ListViewAdapter extends ArrayAdapter<Artikel> {
         txtName.setText(currentArtikel.name);
 
         TextView txtCategory = listItem.findViewById(R.id.txt_item_category);
-        txtName.setText(currentArtikel.category);
+        txtCategory.setText(currentArtikel.category);
 
         TextView txtEuro = listItem.findViewById(R.id.feed_euro);
-        txtName.setText(currentArtikel.getEuro());
+        txtEuro.setText(currentArtikel.getPreis()[0]);
 
         TextView txtCent = listItem.findViewById(R.id.feed_cent);
-        txtName.setText(currentArtikel.getCent());
+        txtCent.setText(", " + currentArtikel.getPreis()[1] + " €");
 
-        return super.getView(position, convertView, parent);
+        return listItem;
     }
 }
