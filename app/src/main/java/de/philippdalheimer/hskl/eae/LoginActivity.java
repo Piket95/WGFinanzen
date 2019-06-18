@@ -1,9 +1,7 @@
 package de.philippdalheimer.hskl.eae;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,17 +11,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
 
-import de.philippdalheimer.hskl.eae.classes.RegResult;
+import de.philippdalheimer.hskl.eae.classes.MessageResponse;
 import de.philippdalheimer.hskl.eae.classes.User;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -155,7 +150,7 @@ public class LoginActivity extends AppCompatActivity {
                             .create();
 
                     User user = gson.fromJson(resultResponse, User.class);
-                    user.logUser();
+//                    user.logUser();
 
                     return user;
 
@@ -211,14 +206,14 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private class PostRequestRegister extends AsyncTask<String, Void, RegResult>{
+    private class PostRequestRegister extends AsyncTask<String, Void, MessageResponse>{
 
         ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
         String username;
         String pass;
 
         @Override
-        protected RegResult doInBackground(String... strings) {
+        protected MessageResponse doInBackground(String... strings) {
 
             this.username = strings[0];
             this.pass = strings[1];
@@ -254,11 +249,13 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d("TestApp", "Request erfolgreich!");
                     Log.d("TestApp", resultResponse);
 
-                    Gson gson = new Gson();
+                    Gson gson = new GsonBuilder()
+                            .excludeFieldsWithModifiers()
+                            .create();
 
-                    RegResult regResult = gson.fromJson(resultResponse, RegResult.class);
+                    MessageResponse messageResponse = gson.fromJson(resultResponse, MessageResponse.class);
 
-                    return regResult;
+                    return messageResponse;
 
                 }
             } catch (IOException e) {
@@ -269,16 +266,16 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(final RegResult regResult) {
+        protected void onPostExecute(final MessageResponse messageResponse) {
 
-            if (regResult != null){
-                if(regResult.success){
+            if (messageResponse != null){
+                if(messageResponse.success){
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             progressDialog.cancel();
 
-                            Toast.makeText(getApplicationContext(), regResult.message, Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), messageResponse.message, Toast.LENGTH_LONG).show();
                             new PostRequestLogin().execute(username, pass);
                         }
                     });
@@ -289,7 +286,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void run() {
                             progressDialog.cancel();
 
-                            Toast.makeText(getApplicationContext(), regResult.message, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), messageResponse.message, Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -299,7 +296,7 @@ public class LoginActivity extends AppCompatActivity {
 
             }
 
-            super.onPostExecute(regResult);
+            super.onPostExecute(messageResponse);
         }
     }
 }
