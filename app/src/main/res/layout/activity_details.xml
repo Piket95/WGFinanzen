@@ -4,6 +4,142 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DetailsActivity">
+    tools:context=".DetailsActivity"
+    android:padding="15dp">
+
+
+    <LinearLayout
+        android:id="@+id/details_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="40dp">
+
+
+        <ImageView
+            android:id="@+id/img_details_kategorie"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/lebensmittel" />
+
+
+        <TextView
+            android:id="@+id/lbl_details_artikelname"
+            style="@style/Heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name des Artikels" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toTopOf=""
+        app:layout_constraintTop_toBottomOf="@+id/details_heading"
+        tools:layout_editor_absoluteX="15dp"
+        android:orientation="vertical"
+        android:paddingLeft="13dp">
+
+        <TextView
+            android:id="@+id/lbl_details_beschreibung"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Greyhound divisively hello coldly wonderfully marginally far."
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kategorie:"
+                    android:layout_marginBottom="15dp"/>
+                <TextView
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Erstellt am:"
+                    android:layout_marginBottom="15dp"/>
+                <TextView
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Preis:"
+                    android:layout_marginBottom="15dp"/>
+                <TextView
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Erstellt von:"
+                    android:layout_marginBottom="15dp"/>
+
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_marginLeft="20dp"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/lbl_details_kategorie"
+                    android:layout_marginBottom="15dp"
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lebensmittel" />
+
+                <TextView
+                    android:id="@+id/lbl_details_erstellt_am"
+                    android:layout_marginBottom="15dp"
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="23.04.2019" />
+
+                <TextView
+                    android:id="@+id/lbl_details_preis"
+                    android:layout_marginBottom="15dp"
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="23.39 €" />
+
+                <TextView
+                    android:id="@+id/lbl_details_erstellt_von"
+                    android:layout_marginBottom="15dp"
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Philipp" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
