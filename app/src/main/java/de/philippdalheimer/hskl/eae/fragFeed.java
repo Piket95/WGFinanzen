@@ -53,9 +53,28 @@ public class fragFeed extends Fragment{
         ctx = inflater.inflate(R.layout.fragment_feed, container, false);
 
         listView = ctx.findViewById(R.id.lv_feed);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> parent, View view, final int position, long id) {
+                String selectedItemID = "-1";
+
+                for (Artikel i : ArtikelVonWG.artikel){
+                    if (i == parent.getItemAtPosition(position)){
+                        selectedItemID = i.id;
+                    }
+                }
+
+                Intent itemDetails = new Intent(getContext(), DetailsActivity.class);
+                itemDetails.putExtra("ArtikelID", selectedItemID);
+                startActivity(itemDetails);
+            }
+        });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
                 String selectedItemID1 = "-1";
                 final String selectedItemID2;
 
@@ -79,6 +98,9 @@ public class fragFeed extends Fragment{
 
                                 switch (which){
                                     case 0: //Bearbeiten
+                                        Intent activityBearbeiten = new Intent(getContext(), Neuer_Artikel.class);
+                                        activityBearbeiten.putExtra("ArtikelID", selectedItemID2);
+                                        startActivityForResult(activityBearbeiten, 1001);
                                         break;
                                     case 1: //Löschen
 //                                        Toast.makeText(getActivity(), "Löschen von " + selectedItemID2, Toast.LENGTH_SHORT).show();
@@ -88,6 +110,8 @@ public class fragFeed extends Fragment{
                             }
                         })
                         .show();
+
+                return true;
             }
         });
 
@@ -112,7 +136,7 @@ public class fragFeed extends Fragment{
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == 1000 && resultCode == Activity.RESULT_OK){
+        if((requestCode == 1000 || requestCode == 1001 ) && resultCode == Activity.RESULT_OK){
             new GetWGListe().execute(User.member_info.wg_code);
         }
     }

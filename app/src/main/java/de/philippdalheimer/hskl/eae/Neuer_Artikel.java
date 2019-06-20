@@ -1,6 +1,7 @@
 package de.philippdalheimer.hskl.eae;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,8 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import de.philippdalheimer.hskl.eae.classes.Artikel;
+import de.philippdalheimer.hskl.eae.classes.ArtikelVonWG;
 import de.philippdalheimer.hskl.eae.classes.KategorieItem;
 import de.philippdalheimer.hskl.eae.classes.MessageResponse;
 import de.philippdalheimer.hskl.eae.classes.Kategorien;
@@ -39,10 +42,15 @@ public class Neuer_Artikel extends AppCompatActivity implements FloatingActionBu
 
     FloatingActionButton btnSend;
 
+    String artikelID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_neuer__artikel);
+
+        Intent intent = getIntent();
+        artikelID = intent.getStringExtra("ArtikelID");
 
         txtName = findViewById(R.id.txt_new_article_name);
         txtBeschreibung = findViewById(R.id.txt_new_article_beschreibung);
@@ -54,7 +62,6 @@ public class Neuer_Artikel extends AppCompatActivity implements FloatingActionBu
         btnSend.setOnClickListener(this);
 
         new getCategories().execute();
-
     }
 
 
@@ -74,8 +81,12 @@ public class Neuer_Artikel extends AppCompatActivity implements FloatingActionBu
 //                Log.d("TestApp", i);
 //            }
 
-            //TODO: Hier brauchen wir die KategorieID nicht den Namen
-            new sendNeuerArtikel().execute(User.member_info.username,User.member_info.wg_code,list.get(0), list.get(1), list.get(2), list.get(3), list.get(4));
+            if(artikelID != null){
+                new sendArtikelBearbeiten().execute(User.member_info.username, User.member_info.wg_code, artikelID, list.get(0), list.get(1), list.get(2), list.get(3), list.get(4));
+            }
+            else{
+                new sendNeuerArtikel().execute(User.member_info.username,User.member_info.wg_code,list.get(0), list.get(1), list.get(2), list.get(3), list.get(4));
+            }
         }
     }
 
@@ -135,7 +146,71 @@ public class Neuer_Artikel extends AppCompatActivity implements FloatingActionBu
 
             //Unschön ich weiß aber es kommt irgendwie ein json mit 13 vorher zurück welches nicht deserialisiert werden kann!
             //13{"success":true,"message":"Artikel wurde angelegt."}
-            Toast.makeText(Neuer_Artikel.this, "Artikel wurde angelegt.", Toast.LENGTH_LONG).show();
+            Toast.makeText(Neuer_Artikel.this, MessageResponse.message, Toast.LENGTH_LONG).show();
+
+            setResult(Activity.RESULT_OK);
+            finish();
+        }
+    }
+
+    private class sendArtikelBearbeiten extends AsyncTask<String, Void, MessageResponse>{
+
+        @Override
+        protected MessageResponse doInBackground(String... strings) {
+            String username = strings[0];
+            String wgcode = strings[1];
+            String artikel_id = strings[2];
+            String artikel_name = strings[3];
+            String artikel_beschreibung = strings[4];
+            String artikel_cat_id = strings[5];
+            String artikel_datum = strings[6];
+            String artikel_preis = strings[7];
+
+            OkHttpClient client = new OkHttpClient();
+
+            RequestBody formBody = new FormBody.Builder()
+                    .add("username", username)
+                    .add("wgcode", wgcode)
+                    .add("artikel_id", artikel_id)
+                    .add("artikel_name", artikel_name)
+                    .add("artikel_beschreibung", artikel_beschreibung)
+                    .add("artikel_cat_id", artikel_cat_id)
+                    .add("artikel_datum", artikel_datum)
+                    .add("artikel_preis", artikel_preis)
+                    .build();
+
+            Request request = new Request.Builder()
+                    .url("https://hskl.philippdalheimer.de/api/artikel/edit")
+                    .post(formBody)
+                    .build();
+
+            try (Response response = client.newCall(request).execute()){
+
+                if(response.isSuccessful()){
+
+                    String requestResponse = response.body().string();
+
+                    Gson gson = new GsonBuilder()
+                            .excludeFieldsWithModifiers()
+                            .create();
+
+                    MessageResponse messageResponse = gson.fromJson(requestResponse, MessageResponse.class);
+
+                    return messageResponse;
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(MessageResponse messageResponse) {
+            super.onPostExecute(messageResponse);
+
+            Toast.makeText(Neuer_Artikel.this, MessageResponse.message, Toast.LENGTH_LONG).show();
 
             setResult(Activity.RESULT_OK);
             finish();
@@ -192,6 +267,18 @@ public class Neuer_Artikel extends AppCompatActivity implements FloatingActionBu
             ArrayAdapter<String> adapter = new ArrayAdapter(Neuer_Artikel.this, android.R.layout.simple_spinner_dropdown_item, katNamen);
 //            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spKategorien.setAdapter(adapter);
+
+            if(artikelID != null){
+                for (Artikel i : ArtikelVonWG.artikel){
+                    if(i.id.equals(artikelID)){
+                        txtName.setText(i.name);
+                        txtBeschreibung.setText(i.beschreibung);
+                        spKategorien.setSelection(Integer.parseInt(i.category_id) - 1);
+                        txtDatum.setText(i.datum);
+                        txtPreis.setText(i.preis);
+                    }
+                }
+            }
         }
     }
 }
