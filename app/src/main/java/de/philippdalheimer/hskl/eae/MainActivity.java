@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.gson.Gson;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private ViewPager viewPager;
     private BottomNavigationView navigationView;
+    private Menu bottomNavMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         navigationView = findViewById(R.id.navigation);
         navigationView.setOnNavigationItemSelectedListener(this);
+
+        if(User.member_info.wg_code.equals("-1")){
+            bottomNavMenu = navigationView.getMenu();
+            MenuItem groupPersonAdd = bottomNavMenu.findItem(R.id.nav_einladen_beitreten);
+            groupPersonAdd.setIcon(R.drawable.ic_group_add_white_24dp);
+            groupPersonAdd.setTitle("WG beitreten");
+        }
     }
 
     @Override

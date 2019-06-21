@@ -38,9 +38,24 @@ public class ListViewAdapter extends ArrayAdapter<Artikel> {
 
         Artikel currentArtikel = wgArtikelListe.get(position);
 
-        //TODO: Image setzen in ListView pro Artikel!
-//        ImageView image = listItem.findViewById(R.id.item_image);
-//        image.setImageResource(currentArtikel.getImage);
+        ImageView image = listItem.findViewById(R.id.item_image);
+
+        switch (Integer.parseInt(currentArtikel.category_id)){
+            case 1:
+                image.setImageResource(R.drawable.lebensmittel);
+                break;
+            case 2:
+                image.setImageResource(R.drawable.unterhaltung);
+                break;
+            case 3:
+                image.setImageResource(R.drawable.freizeit);
+                break;
+            case 4:
+                image.setImageResource(R.drawable.haushalt);
+                break;
+            default:
+                break;
+        }
 
         TextView txtName = listItem.findViewById(R.id.txt_item_heading);
         txtName.setText(currentArtikel.name);

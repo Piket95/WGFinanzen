@@ -14,6 +14,8 @@ public class Artikel {
     public String creator;
     public String category;
 
+    //TODO: datum und created dopplung?
+
     public String[] getPreis(){
         String[] array = preis.split("\\.");
 
