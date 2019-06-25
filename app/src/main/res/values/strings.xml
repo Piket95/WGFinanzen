@@ -50,5 +50,22 @@
     <string name="diaEnter_title">WG-Code eingeben</string>
     <string name="diaShow_title">WG-Code weitergeben</string>
     <string name="dia_Ok">Ok</string>
+    <string name="name_des_artikels">Name des Artikels</string>
+    <string name="placeholder_text">Greyhound divisively hello coldly wonderfully marginally far.</string>
+    <string name="kategorie">Kategorie:</string>
+    <string name="erstellt_am">Erstellt am:</string>
+    <string name="preis">Preis:</string>
+    <string name="erstellt_von">Erstellt von:</string>
+    <string name="bewohner_einladen">Bewohner einladen</string>
+    <string name="einladen_beschreibung">Zeige einem WG-Mitglied den WG Code, damit dieser der WG beitreten und die Services nutzen kann.</string>
+    <string name="wg_code_anzeigen">WG-CODE ANZEIGEN</string>
+    <string name="neue_wg_anlegen">Neue WG anlegen</string>
+    <string name="neuewg_beschreibung">Du möchtest eine neue WG anlegen? Dann klick hier :-)</string>
+    <string name="sample_goal">200 €</string>
+    <string name="sample_goal_2">Maximum bearbeiten (200 €):</string>
+    <string name="title_heading_placeholder">Title Heading</string>
+    <string name="category_placeholder">Category</string>
+    <string name="price_eur_placeholder">23</string>
+    <string name="price_cent_placeholder">,39 €</string>
 
 </resources>

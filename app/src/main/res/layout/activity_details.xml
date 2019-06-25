@@ -33,7 +33,7 @@
             style="@style/Heading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Name des Artikels" />
+            android:text="@string/name_des_artikels" />
 
     </LinearLayout>
 
@@ -50,7 +50,7 @@
             android:id="@+id/lbl_details_beschreibung"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Greyhound divisively hello coldly wonderfully marginally far."
+            android:text="@string/placeholder_text"
             android:textColor="#000000"
             android:textSize="16sp" />
 
@@ -69,25 +69,25 @@
                     android:textSize="16sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Kategorie:"
+                    android:text="@string/kategorie"
                     android:layout_marginBottom="15dp"/>
                 <TextView
                     android:textSize="16sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Erstellt am:"
+                    android:text="@string/erstellt_am"
                     android:layout_marginBottom="15dp"/>
                 <TextView
                     android:textSize="16sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Preis:"
+                    android:text="@string/preis"
                     android:layout_marginBottom="15dp"/>
                 <TextView
                     android:textSize="16sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Erstellt von:"
+                    android:text="@string/erstellt_von"
                     android:layout_marginBottom="15dp"/>
 
 
@@ -107,7 +107,7 @@
                     android:textSize="16sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Lebensmittel" />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/lbl_details_erstellt_am"
@@ -115,7 +115,7 @@
                     android:textSize="16sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="23.04.2019" />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/lbl_details_preis"
@@ -123,7 +123,7 @@
                     android:textSize="16sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="23.39 €" />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/lbl_details_erstellt_von"
@@ -131,7 +131,7 @@
                     android:textSize="16sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Philipp" />
+                    android:text="" />
 
 
             </LinearLayout>

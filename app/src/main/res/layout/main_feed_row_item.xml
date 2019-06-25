@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -27,14 +28,14 @@
             android:id="@+id/txt_item_heading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Title Heading"
+            android:text="@string/title_heading_placeholder"
             android:textColor="@color/colorTextBlack"/>
 
         <TextView
             android:id="@+id/txt_item_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Category?"
+            android:text="@string/category_placeholder"
             android:textSize="10dp"
             android:textColor="@color/colorTextBlack"/>
     </LinearLayout>
@@ -46,7 +47,7 @@
         android:layout_toStartOf="@+id/feed_cent"
         android:height="35dp"
         android:gravity="bottom"
-        android:text="23"
+        android:text="@string/price_eur_placeholder"
         android:textColor="@color/colorTextBlack"
         android:textSize="25dp" />
 
@@ -57,9 +58,10 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:height="35dp"
-        android:text=",39 €"
+        android:text="@string/price_cent_placeholder"
         android:gravity="bottom"
         android:textAlignment="textStart"
-        android:textColor="@color/colorTextBlack" />
+        android:textColor="@color/colorTextBlack"
+        tools:ignore="RtlCompat" />
 
 </RelativeLayout>

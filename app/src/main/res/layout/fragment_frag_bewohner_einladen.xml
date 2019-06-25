@@ -31,18 +31,18 @@
                 style="@style/Heading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Bewohner einladen" />
+                android:text="@string/bewohner_einladen" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:text="Zeige einem WG-Mitglied den WG Code, damit dieser der WG beitreten und die Services nutzen kann." />
+                android:text="@string/einladen_beschreibung" />
 
             <Button
                 android:id="@+id/btn_show_wg_code"
                 style="@style/CardButton"
-                android:text="WG-CODE ANZEIGEN"
+                android:text="@string/wg_code_anzeigen"
                 android:elevation="0dp"/>
         </LinearLayout>
     </android.support.v7.widget.CardView>
