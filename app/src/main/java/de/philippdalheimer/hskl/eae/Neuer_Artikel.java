@@ -206,10 +206,10 @@ public class Neuer_Artikel extends AppCompatActivity implements FloatingActionBu
 //                Gson gson = new GsonBuilder()
 //                        .excludeFieldsWithModifiers()
 //                        .create();
-
+//
 //                MessageResponse messageResponse = gson.fromJson(resultResponse, MessageResponse.class);
 
-//                Log.d("TestApp", resultResponse);
+//                Log.d("TestApp", "[Artikel anlegen Response] " + resultResponse);
 
                 return null;
 
@@ -226,7 +226,7 @@ public class Neuer_Artikel extends AppCompatActivity implements FloatingActionBu
 
             //Unschön ich weiß aber es kommt irgendwie ein json mit 13 vorher zurück welches nicht deserialisiert werden kann!
             //13{"success":true,"message":"Artikel wurde angelegt."}
-            Toast.makeText(Neuer_Artikel.this, MessageResponse.message, Toast.LENGTH_LONG).show();
+            Toast.makeText(Neuer_Artikel.this, getResources().getString(R.string.art_anlegen_success), Toast.LENGTH_LONG).show();
 
             setResult(Activity.RESULT_OK);
             finish();

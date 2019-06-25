@@ -7,6 +7,7 @@ public class MemberInfo {
     public static String id;
     public static String username;
     public static String password;
+    public static String password_clear;
     public static String created;
     public static String wg_code;
 

@@ -21,6 +21,7 @@ import com.google.gson.GsonBuilder;
 import java.io.IOException;
 
 import de.philippdalheimer.hskl.eae.classes.User;
+import de.philippdalheimer.hskl.eae.classes.UserLogin;
 import de.philippdalheimer.hskl.eae.classes.WGBeitreten;
 import de.philippdalheimer.hskl.eae.classes.WGErstellen;
 import okhttp3.FormBody;
@@ -128,10 +129,10 @@ public class fragWG_Beitreten extends Fragment {
         @Override
         protected void onPostExecute(WGBeitreten wgBeitreten) {
 
-            Toast.makeText(getContext(), WGBeitreten.message + " " + getResources().getString(R.string.main_neu_einloggen), Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), WGBeitreten.message, Toast.LENGTH_LONG).show();
 
-            startActivity(new Intent(getContext(), LoginActivity.class));
-            getActivity().finish();
+            //Erneute Anmeldung (als Refresh der Userinformationen)
+            new UserLogin(getActivity()).execute(User.member_info.username, User.member_info.password_clear);
 
             super.onPostExecute(wgBeitreten);
         }
@@ -151,7 +152,7 @@ public class fragWG_Beitreten extends Fragment {
                     .build();
 
             Request request = new Request.Builder()
-                    .url(getResources().getString(R.string.url_wg_beitreten))
+                    .url(getResources().getString(R.string.url_wg_erstellen))
                     .post(formBody)
                     .build();
 
@@ -183,10 +184,10 @@ public class fragWG_Beitreten extends Fragment {
         @Override
         protected void onPostExecute(WGErstellen wgErstellen) {
 
-            Toast.makeText(getContext(), WGErstellen.message + " " + getResources().getString(R.string.main_neu_einloggen), Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), WGErstellen.message, Toast.LENGTH_LONG).show();
 
-            startActivity(new Intent(getContext(), LoginActivity.class));
-            getActivity().finish();
+            //Erneute Anmeldung (als Refresh der Userinformationen)
+            new UserLogin(getActivity()).execute(User.member_info.username, User.member_info.password_clear);
 
             super.onPostExecute(wgErstellen);
         }

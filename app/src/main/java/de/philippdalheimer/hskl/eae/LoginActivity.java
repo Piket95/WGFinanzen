@@ -20,6 +20,7 @@ import java.io.IOException;
 
 import de.philippdalheimer.hskl.eae.classes.MessageResponse;
 import de.philippdalheimer.hskl.eae.classes.User;
+import de.philippdalheimer.hskl.eae.classes.UserLogin;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -55,8 +56,8 @@ public class LoginActivity extends AppCompatActivity {
                 EditText txtPassword = findViewById(R.id.txt_login_password);
 
                 if(!TextUtils.isEmpty(txtUsername.getText().toString()) || !TextUtils.isEmpty(txtPassword.getText().toString())){
-                    PostRequestLogin postRequestLogin = new PostRequestLogin();
-                    postRequestLogin.execute(txtUsername.getText().toString(), txtPassword.getText().toString());
+                    //Aufruf der Klasse UserLogin, um die Anmeldeinformationen mit den Datenbank abzugleichen (POST Request)
+                    new UserLogin(LoginActivity.this).execute(txtUsername.getText().toString(), txtPassword.getText().toString());
                 }
                 else{
                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.login_felder_ausfüllen), Toast.LENGTH_LONG).show();
@@ -104,109 +105,6 @@ public class LoginActivity extends AppCompatActivity {
             registerCard.setVisibility(View.GONE);
         }
 
-    }
-
-    //POST Request um User mit Passwort anzumelden
-    private class PostRequestLogin extends AsyncTask<String, Void, User>{
-
-        ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
-
-        @Override
-        protected User doInBackground(String... strings) {
-
-            String username = strings[0];
-            String pass = strings[1];
-
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    progressDialog.setMessage(getResources().getString(R.string.login_anmeldung_erfolgt));
-                    progressDialog.setTitle(getResources().getString(R.string.login_bitte_warten));
-                    progressDialog.setCancelable(false);
-                    progressDialog.setCanceledOnTouchOutside(false);
-                    progressDialog.show();
-                }
-            });
-
-            OkHttpClient client = new OkHttpClient();
-
-            RequestBody formBody = new FormBody.Builder()
-                    .add(getResources().getString(R.string.req_username), username)
-                    .add(getResources().getString(R.string.req_password), pass)
-                    .build();
-
-            Request request = new Request.Builder()
-                    .url(getResources().getString(R.string.url_login))
-                    .post(formBody)
-                    .build();
-
-            try(Response response = client.newCall(request).execute()){
-                if(response.isSuccessful()){
-
-                    String resultResponse = response.body().string();
-
-//                    Log.d("TestApp", "Request erfolgreich!");
-//                    Log.d("TestApp", resultResponse);
-
-                    Gson gson = new GsonBuilder()
-                            .excludeFieldsWithModifiers()
-                            .create();
-
-                    User user = gson.fromJson(resultResponse, User.class);
-//                    user.logUser();
-
-                    return user;
-
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(final User user) {
-            super.onPostExecute(user);
-
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-
-                    if(user != null){
-
-                        if(user.success == true){
-
-                            progressDialog.cancel();
-
-                            startActivity(main);
-                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.login_erfolgreich), Toast.LENGTH_LONG).show();
-                            finish();
-                        }
-                        else{
-                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.login_fehlgeschlagen), Toast.LENGTH_LONG).show();
-
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    progressDialog.cancel();
-                                }
-                            });
-                        }
-                    }
-                    else{
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                progressDialog.cancel();
-                            }
-                        });
-                        Toast.makeText(getApplicationContext(),getResources().getString(R.string.login_irgendwas_schiefgelaufen), Toast.LENGTH_LONG).show();
-                    }
-
-                }
-            });
-        }
     }
 
     //POST Request zur Registrierung/Anlegen eines neuen Benutzers
@@ -280,7 +178,7 @@ public class LoginActivity extends AppCompatActivity {
                             progressDialog.cancel();
 
                             Toast.makeText(getApplicationContext(), messageResponse.message, Toast.LENGTH_LONG).show();
-                            new PostRequestLogin().execute(username, pass);
+                            new UserLogin(LoginActivity.this).execute(username,pass);
                         }
                     });
                 }

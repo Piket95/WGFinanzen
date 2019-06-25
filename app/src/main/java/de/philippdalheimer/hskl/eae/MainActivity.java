@@ -16,10 +16,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
+import java.util.zip.Inflater;
 
 import de.philippdalheimer.hskl.eae.classes.ArtikelVonWG;
 import de.philippdalheimer.hskl.eae.classes.MessageResponse;
 import de.philippdalheimer.hskl.eae.classes.User;
+import de.philippdalheimer.hskl.eae.classes.UserLogin;
 import de.philippdalheimer.hskl.eae.classes.ViewPagerAdapter;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -58,6 +60,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
+
+        if(User.member_info.wg_code.equals("-1")){
+            menu.findItem(R.id.menu_wg_verlassen).setVisible(false);
+        }
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -69,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         switch (item.getItemId()){
             case R.id.menu_wg_verlassen:
                 new sendWGLeave().execute(User.member_info.username, User.member_info.wg_code);
-                startActivity(login);
+                new UserLogin(this).execute(User.member_info.username, User.member_info.password_clear);
                 break;
             case R.id.menu_logout:
                 startActivity(login);
@@ -89,17 +96,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public void onPageSelected(int i) {
-    switch (i){
-        case 0:
-            navigationView.setSelectedItemId(R.id.nav_feed);
-            break;
-        case 1:
-            navigationView.setSelectedItemId(R.id.nav_einladen_beitreten);
-            break;
-        case 2:
-            navigationView.setSelectedItemId(R.id.nav_ziele);
-            break;
-    }
+        switch (i){
+            case 0:
+                navigationView.setSelectedItemId(R.id.nav_feed);
+                break;
+            case 1:
+                navigationView.setSelectedItemId(R.id.nav_einladen_beitreten);
+                break;
+            case 2:
+                navigationView.setSelectedItemId(R.id.nav_ziele);
+                break;
+        }
     }
 
     @Override
@@ -173,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         @Override
         protected void onPostExecute(MessageResponse messageResponse) {
 
-            Toast.makeText(MainActivity.this, messageResponse.message + " " + getResources().getString(R.string.main_neu_einloggen), Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, messageResponse.message, Toast.LENGTH_LONG).show();
 
             super.onPostExecute(messageResponse);
         }
