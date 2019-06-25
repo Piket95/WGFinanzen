@@ -29,6 +29,7 @@ import okhttp3.Response;
 public class LoginActivity extends AppCompatActivity {
 
     //TODO: !ALLE! STRINGS MÜSSEN NOCH IN STRING RESOURCE DATEI AUSGELAGERT WERDEN!
+    //TODO: !ALLE! Dateien müssen noch kommentiert werden!
 
     Button btnLogin;
     Button btnRegister;
@@ -58,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
                     postRequestLogin.execute(txtUsername.getText().toString(), txtPassword.getText().toString());
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "Bitte füllen Sie beide Felder aus!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.login_felder_ausfüllen), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -77,10 +78,10 @@ public class LoginActivity extends AppCompatActivity {
                         PostRequestRegister postRequestRegister = new PostRequestRegister();
                         postRequestRegister.execute(txtRegUsername.getText().toString(), txtRegPass.getText().toString());
 
-                        Log.d("TestApp", "Yay stimmt!");
+//                        Log.d("TestApp", "Yay stimmt!");
                     }
                     else{
-                        Toast.makeText(getApplicationContext(), "Die beiden Passwörter stimmen nicht überein!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.login_passwort_identisch), Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -89,6 +90,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    //Wechsel zwischen Login Sicht und Registrierungssicht
     public void toggleCards (View v){
         loginCard = findViewById(R.id.card_login);
         registerCard = findViewById(R.id.card_register);
@@ -104,6 +106,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    //POST Request um User mit Passwort anzumelden
     private class PostRequestLogin extends AsyncTask<String, Void, User>{
 
         ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
@@ -117,8 +120,8 @@ public class LoginActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    progressDialog.setMessage("Anmeldung erfolgt...");
-                    progressDialog.setTitle("Bitte warten Sie....");
+                    progressDialog.setMessage(getResources().getString(R.string.login_anmeldung_erfolgt));
+                    progressDialog.setTitle(getResources().getString(R.string.login_bitte_warten));
                     progressDialog.setCancelable(false);
                     progressDialog.setCanceledOnTouchOutside(false);
                     progressDialog.show();
@@ -128,12 +131,12 @@ public class LoginActivity extends AppCompatActivity {
             OkHttpClient client = new OkHttpClient();
 
             RequestBody formBody = new FormBody.Builder()
-                    .add("username", username)
-                    .add("password", pass)
+                    .add(getResources().getString(R.string.req_username), username)
+                    .add(getResources().getString(R.string.req_password), pass)
                     .build();
 
             Request request = new Request.Builder()
-                    .url("https://hskl.philippdalheimer.de/api/login/login")
+                    .url(getResources().getString(R.string.url_login))
                     .post(formBody)
                     .build();
 
@@ -177,11 +180,11 @@ public class LoginActivity extends AppCompatActivity {
                             progressDialog.cancel();
 
                             startActivity(main);
-                            Toast.makeText(getApplicationContext(), "Anmeldung erfolgreich!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.login_erfolgreich), Toast.LENGTH_LONG).show();
                             finish();
                         }
                         else{
-                            Toast.makeText(getApplicationContext(), "Anmeldung fehlgeschlagen! Bitte überprüfen Sie Ihre Eingaben oder registrieren Sie sich!", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.login_fehlgeschlagen), Toast.LENGTH_LONG).show();
 
                             runOnUiThread(new Runnable() {
                                 @Override
@@ -198,7 +201,7 @@ public class LoginActivity extends AppCompatActivity {
                                 progressDialog.cancel();
                             }
                         });
-                        Toast.makeText(getApplicationContext(),"Irgendetwas scheint schief gelaufen zu sein!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),getResources().getString(R.string.login_irgendwas_schiefgelaufen), Toast.LENGTH_LONG).show();
                     }
 
                 }
@@ -206,6 +209,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    //POST Request zur Registrierung/Anlegen eines neuen Benutzers
     private class PostRequestRegister extends AsyncTask<String, Void, MessageResponse>{
 
         ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
@@ -221,8 +225,8 @@ public class LoginActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    progressDialog.setTitle("Bitte warten...");
-                    progressDialog.setMessage("Sie werden nun registriert!");
+                    progressDialog.setTitle(getResources().getString(R.string.login_bitte_warten));
+                    progressDialog.setMessage(getResources().getString(R.string.reg_register_erfolgt));
                     progressDialog.setCancelable(false);
                     progressDialog.setCanceledOnTouchOutside(false);
                     progressDialog.show();
@@ -232,12 +236,12 @@ public class LoginActivity extends AppCompatActivity {
             OkHttpClient client = new OkHttpClient();
 
             RequestBody formBody = new FormBody.Builder()
-                    .add("username", username)
-                    .add("password", pass)
+                    .add(getResources().getString(R.string.req_username), username)
+                    .add(getResources().getString(R.string.req_password), pass)
                     .build();
 
             Request request = new Request.Builder()
-                    .url("https://hskl.philippdalheimer.de/api/member/create")
+                    .url(getResources().getString(R.string.url_register))
                     .post(formBody)
                     .build();
 
@@ -246,8 +250,8 @@ public class LoginActivity extends AppCompatActivity {
 
                     String resultResponse = response.body().string();
 
-                    Log.d("TestApp", "Request erfolgreich!");
-                    Log.d("TestApp", resultResponse);
+//                    Log.d("TestApp", "Request erfolgreich!");
+//                    Log.d("TestApp", resultResponse);
 
                     Gson gson = new GsonBuilder()
                             .excludeFieldsWithModifiers()
@@ -292,7 +296,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
             else{
-                Toast.makeText(getApplicationContext(), "Irgendetwas scheint schief gelaufen zu sein! Bitte kontaktieren Sie einen Administrator!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.login_irgendwas_schiefgelaufen), Toast.LENGTH_SHORT).show();
 
             }
 

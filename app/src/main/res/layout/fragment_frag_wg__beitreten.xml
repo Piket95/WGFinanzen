@@ -40,7 +40,7 @@
                 android:text="@string/du_m_chtest_einer_wg_beitreten_dann_frag_nach_dem_wg_code_und_dann_kann_s_schon_los_gehen" />
 
             <Button
-                android:id="@+id/btn_show_wg_code"
+                android:id="@+id/btn_enter_wg_code"
                 style="@style/CardButton"
                 android:elevation="0dp"
                 android:text="WG-CODE EINGEBEN" />

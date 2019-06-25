@@ -26,7 +26,7 @@ public class fragBewohner_einladen extends Fragment {
             @Override
             public void onClick(View v) {
                 ShowWGCodeDialog dialog = new ShowWGCodeDialog();
-                dialog.show(getActivity().getSupportFragmentManager(), "ShowWGCode");
+                dialog.show(getActivity().getSupportFragmentManager(), null);
             }
         });
 

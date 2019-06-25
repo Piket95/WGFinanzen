@@ -7,8 +7,6 @@
     <string name="register">Register</string>
     <string name="already_registered">Already registered?</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="txt_new_article_name">Name</string>
     <string name="txt_new_article_beschreibung">Beschreibung</string>
     <string name="txt_new_article_datum">Datum</string>
@@ -20,7 +18,37 @@
     <string name="ausgaben_im_monat">Ausgaben im Monat</string>
     <string name="m_rz_2019">März 2019</string>
 
-    <!--Shared Preferences -->
-    <!--<string name="sh_userinformations">sh_userinformations</string>-->
+    <!--URLs-->
+    <string name="url_login">https://hskl.philippdalheimer.de/api/login/login</string>
+    <string name="url_register">https://hskl.philippdalheimer.de/api/member/create</string>
+    <string name="url_wg_beitreten">https://hskl.philippdalheimer.de/api/wg/join</string>
+
+    <!--Post Requests -->
+    <string name="req_username">username</string>
+    <string name="req_password">password</string>
+    <string name="req_wgcode">wgcode</string>
+
+    <!--Login Activity-->
+    <string name="login_passwort_identisch">Die beiden Passwörter stimmen nicht überein!</string>
+    <string name="login_felder_ausfüllen">Bitte füllen Sie beide Felder aus!</string>
+    <string name="login_anmeldung_erfolgt">Anmeldung erfolgt...</string>
+    <string name="login_bitte_warten">Bitte warten Sie...</string>
+    <string name="login_erfolgreich">Anmeldung erfolgreich!</string>
+    <string name="login_fehlgeschlagen">Anmeldung fehlgeschlagen! Bitte überprüfen Sie Ihre Eingaben oder registrieren Sie sich!</string>
+    <string name="login_irgendwas_schiefgelaufen">Irgendetwas scheint schief gelaufen zu sein! Bitte kontaktieren Sie einen Administrator!</string>
+    <string name="reg_register_erfolgt">Sie werden nun registriert!</string>
+
+    <!--Main Activity-->
+    <string name="main_neu_einloggen">Bitte melden sie sich erneut an!</string>
+
+    <!--Main Menu-->
+    <string name="menu_item_ausloggen"><font color="#d81b60">Ausloggen</font></string>
+
+    <!--Dialogs-->
+    <string name="diaEnter_hint">000000</string>
+    <string name="diaShow_text">0</string>
+    <string name="diaEnter_title">WG-Code eingeben</string>
+    <string name="diaShow_title">WG-Code weitergeben</string>
+    <string name="dia_Ok">Ok</string>
 
 </resources>

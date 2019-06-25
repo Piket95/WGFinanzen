@@ -35,8 +35,8 @@ public class ShowWGCodeDialog extends AppCompatDialogFragment {
         }
 
         builder.setView(view)
-                .setTitle("WG-Code weitergeben")
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                .setTitle(getResources().getString(R.string.diaShow_title))
+                .setPositiveButton(getResources().getString(R.string.dia_Ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //Muss nix rein!

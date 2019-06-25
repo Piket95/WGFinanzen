@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-thin"
             android:paddingRight="10dp"
-            android:text="0"
+            android:text="@string/diaShow_text"
             android:textSize="60dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-thin"
             android:paddingRight="10dp"
-            android:text="0"
+            android:text="@string/diaShow_text"
             android:textSize="60dp"
             app:layout_constraintStart_toEndOf="@id/lbl_wg_code_1"
             app:layout_constraintTop_toTopOf="parent" />
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-thin"
             android:paddingRight="20dp"
-            android:text="0"
+            android:text="@string/diaShow_text"
             android:textSize="60dp"
             app:layout_constraintStart_toEndOf="@id/lbl_wg_code_2"
             app:layout_constraintTop_toTopOf="parent" />
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-thin"
             android:paddingRight="10dp"
-            android:text="0"
+            android:text="@string/diaShow_text"
             android:textSize="60dp"
             app:layout_constraintStart_toEndOf="@id/lbl_wg_code_3"
             app:layout_constraintTop_toTopOf="parent" />
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-thin"
             android:paddingRight="10dp"
-            android:text="0"
+            android:text="@string/diaShow_text"
             android:textSize="60dp"
             app:layout_constraintStart_toEndOf="@id/lbl_wg_code_4"
             app:layout_constraintTop_toTopOf="parent" />
@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-thin"
             android:paddingRight="10dp"
-            android:text="0"
+            android:text="@string/diaShow_text"
             android:textSize="60dp"
             app:layout_constraintStart_toEndOf="@id/lbl_wg_code_5"
             app:layout_constraintTop_toTopOf="parent" />
