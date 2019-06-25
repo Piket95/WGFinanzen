@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:hint="@string/username_hint"
-                android:text="Karamellwuerfel"
+                android:text=""
                 android:inputType="textEmailAddress" />
 
             <EditText
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:hint="Password"
-                android:text="test"
+                android:text=""
                 android:inputType="textPassword" />
 
             <Button
