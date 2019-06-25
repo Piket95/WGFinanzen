@@ -1,7 +1,10 @@
 package de.philippdalheimer.hskl.eae;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -19,6 +23,7 @@ import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import de.philippdalheimer.hskl.eae.classes.Artikel;
 import de.philippdalheimer.hskl.eae.classes.ArtikelVonWG;
@@ -39,6 +44,7 @@ public class Neuer_Artikel extends AppCompatActivity implements FloatingActionBu
     Spinner spKategorien;
     EditText txtDatum;
     EditText txtPreis;
+    DatePickerDialog.OnDateSetListener mDateSetListener;
 
     FloatingActionButton btnSend;
 
@@ -56,10 +62,20 @@ public class Neuer_Artikel extends AppCompatActivity implements FloatingActionBu
         txtBeschreibung = findViewById(R.id.txt_new_article_beschreibung);
         spKategorien = findViewById(R.id.txt_new_article_kategorie);
         txtDatum = findViewById(R.id.txt_new_article_datum);
+        txtDatum.setOnClickListener(this);
         txtPreis = findViewById(R.id.txt_new_article_preis);
 
         btnSend = findViewById(R.id.btn_new_article_submit);
         btnSend.setOnClickListener(this);
+
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int y, int m, int d) {
+                ++m; // Monat + 1
+                String date = d + "." + m + "." + y;
+                txtDatum.setText(date);
+            }
+        };
 
         new getCategories().execute();
     }
@@ -67,15 +83,79 @@ public class Neuer_Artikel extends AppCompatActivity implements FloatingActionBu
 
     @Override
     public void onClick(View v) {
+
+        if(v.getId() == R.id.txt_new_article_datum) {
+            Calendar cal = Calendar.getInstance();
+            int y = cal.get(Calendar.YEAR);
+            int m = cal.get(Calendar.MONTH);
+            int d = cal.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog dialog = new DatePickerDialog(
+                    Neuer_Artikel.this,
+                    android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                    mDateSetListener,
+                    y, m, d
+            );
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+        }
+
         if(v.getId() == R.id.btn_new_article_submit){
 
             ArrayList<String> list = new ArrayList<>();
+            ArrayList<String> errors = new ArrayList<>();
 
-            list.add(txtName.getText().toString());
-            list.add(txtBeschreibung.getText().toString());
-            list.add(Integer.toString(spKategorien.getSelectedItemPosition() + 1));
-            list.add(txtDatum.getText().toString());
-            list.add(txtPreis.getText().toString());
+            String name = txtName.getText().toString();
+            String beschreibung = txtBeschreibung.getText().toString();
+            String kategorie = Integer.toString(spKategorien.getSelectedItemPosition() + 1);
+            String datum = txtDatum.getText().toString();
+            String preis = txtPreis.getText().toString();
+            String error = "";
+
+            // check, ob alle felder ausgefüllt sind
+            if(name.equals(""))
+            {
+                errors.add("Name");
+            }
+            if(beschreibung.equals(""))
+            {
+                errors.add("Beschreibung");
+            }
+            if(datum.equals(""))
+            {
+                errors.add("Datum");
+            }
+            if(preis.equals(""))
+            {
+                errors.add("Preis");
+            }
+
+            // wenn errors vorhanden, errors anzeigen und weiteres Verfahren abbrechen
+            if(!errors.isEmpty())
+            {
+                error = "Die Felder ";
+
+                for (int i = 0; i < errors.size(); i++)
+                {
+                    if (i != errors.size()-1)
+                    {
+                        error += errors.get(i) + ", ";
+                    }else{
+                        error += errors.get(i) + " ";
+                    }
+                }
+
+                error += "müssen ausgefüllt sein!";
+
+                Toast.makeText(Neuer_Artikel.this, error, Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            list.add(name);
+            list.add(beschreibung);
+            list.add(kategorie);
+            list.add(datum);
+            list.add(preis);
 
 //            for(String i : list){
 //                Log.d("TestApp", i);

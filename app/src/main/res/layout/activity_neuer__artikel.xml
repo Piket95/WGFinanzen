@@ -56,6 +56,7 @@
         android:hint="@string/txt_new_article_datum"
         app:layout_constraintTop_toBottomOf="@+id/txt_new_article_kategorie"
         tools:layout_editor_absoluteX="15dp"
+        android:focusableInTouchMode="false"
         android:inputType="date"/>
 
     <EditText
