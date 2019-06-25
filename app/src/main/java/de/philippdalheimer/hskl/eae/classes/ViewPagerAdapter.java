@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import de.philippdalheimer.hskl.eae.classes.User.User;
 import de.philippdalheimer.hskl.eae.fragBewohner_einladen;
 import de.philippdalheimer.hskl.eae.fragFeed;
 import de.philippdalheimer.hskl.eae.fragWG_Beitreten;

@@ -8,30 +8,23 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.util.ArrayList;
 
-import de.philippdalheimer.hskl.eae.classes.Artikel;
-import de.philippdalheimer.hskl.eae.classes.ArtikelVonWG;
-import de.philippdalheimer.hskl.eae.classes.KategorieItem;
-import de.philippdalheimer.hskl.eae.classes.Kategorien;
+import de.philippdalheimer.hskl.eae.classes.Artikel.Artikel;
+import de.philippdalheimer.hskl.eae.classes.Artikel.ArtikelVonWG;
 import de.philippdalheimer.hskl.eae.classes.ListViewAdapter;
 import de.philippdalheimer.hskl.eae.classes.MessageResponse;
-import de.philippdalheimer.hskl.eae.classes.User;
+import de.philippdalheimer.hskl.eae.classes.User.User;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

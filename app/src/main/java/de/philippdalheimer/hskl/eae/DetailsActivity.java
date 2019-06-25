@@ -3,12 +3,11 @@ package de.philippdalheimer.hskl.eae;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import de.philippdalheimer.hskl.eae.classes.Artikel;
-import de.philippdalheimer.hskl.eae.classes.ArtikelVonWG;
+import de.philippdalheimer.hskl.eae.classes.Artikel.Artikel;
+import de.philippdalheimer.hskl.eae.classes.Artikel.ArtikelVonWG;
 
 public class DetailsActivity extends AppCompatActivity {
 

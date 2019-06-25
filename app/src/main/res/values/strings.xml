@@ -18,16 +18,24 @@
     <string name="ausgaben_im_monat">Ausgaben im Monat</string>
     <string name="m_rz_2019">März 2019</string>
 
+    <!--Shared Preferences-->
+    <string name="sh_filename">SwitchValue</string>
+    <string name="sh_sw_user">sw_user</string>
+    <string name="sh_sw_value">sw_value</string>
+
     <!--URLs-->
     <string name="url_login">https://hskl.philippdalheimer.de/api/login/login</string>
     <string name="url_register">https://hskl.philippdalheimer.de/api/member/create</string>
     <string name="url_wg_beitreten">https://hskl.philippdalheimer.de/api/wg/join</string>
     <string name="url_wg_erstellen">https://hskl.philippdalheimer.de/api/wg/create</string>
+    <string name="url_ziele_get">https://hskl.philippdalheimer.de/api/member/get_goal</string>
+    <string name="url_ziele_set">https://hskl.philippdalheimer.de/api/member/set_goal</string>
 
     <!--Post Requests -->
     <string name="req_username">username</string>
     <string name="req_password">password</string>
     <string name="req_wgcode">wgcode</string>
+    <string name="req_goal">goal</string>
 
     <!--Login Activity-->
     <string name="login_passwort_identisch">Die beiden Passwörter stimmen nicht überein!</string>
@@ -43,7 +51,7 @@
     <string name="main_neu_einloggen">Bitte melden sie sich erneut an!</string>
 
     <!--Main Menu-->
-    <string name="menu_item_ausloggen"><font color="#d81b60">Ausloggen</font></string>
+    <string name="menu_item_ausloggen"><font fgcolor="#ffd81b60">Ausloggen</font></string>
 
     <!--Neuen Artikel anlegen-->
     <string name="art_anlegen_success">Artikel wurde angelegt.</string>

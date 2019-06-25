@@ -2,7 +2,6 @@ package de.philippdalheimer.hskl.eae;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,10 +19,10 @@ import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 
-import de.philippdalheimer.hskl.eae.classes.User;
-import de.philippdalheimer.hskl.eae.classes.UserLogin;
-import de.philippdalheimer.hskl.eae.classes.WGBeitreten;
-import de.philippdalheimer.hskl.eae.classes.WGErstellen;
+import de.philippdalheimer.hskl.eae.classes.User.User;
+import de.philippdalheimer.hskl.eae.classes.User.UserLogin;
+import de.philippdalheimer.hskl.eae.classes.WG.WGBeitreten;
+import de.philippdalheimer.hskl.eae.classes.WG.WGErstellen;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

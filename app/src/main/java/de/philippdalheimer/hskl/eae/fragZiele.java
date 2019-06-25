@@ -1,17 +1,223 @@
 package de.philippdalheimer.hskl.eae;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.SeekBar;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.IOException;
+
+import de.philippdalheimer.hskl.eae.classes.MessageResponse;
+import de.philippdalheimer.hskl.eae.classes.User.User;
+import de.philippdalheimer.hskl.eae.classes.User.Ziele;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class fragZiele extends Fragment {
+
+    View ctx;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor edit;
+
+    Switch aSwitch;
+    LinearLayout cardVisible;
+    ProgressBar progressBar;
+    TextView lblMaxZiel;
+    TextView lblMaxZielEdit;
+    SeekBar seekWunschZiel;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_frag_ziele, container, false);
+        ctx = inflater.inflate(R.layout.fragment_frag_ziele, container, false);
+
+        new getZiele().execute(User.member_info.username);
+
+        cardVisible = ctx.findViewById(R.id.linLay_Ziele_Card);
+
+        pref = getActivity().getSharedPreferences(getActivity().getResources().getString(R.string.sh_filename), Context.MODE_PRIVATE);
+        edit = pref.edit();
+
+        aSwitch = ctx.findViewById(R.id.swt_ziele_track);
+
+        if(pref.getString(getActivity().getResources().getString(R.string.sh_sw_user), "").equals(User.member_info.username)){
+            aSwitch.setChecked(pref.getBoolean(getActivity().getResources().getString(R.string.sh_sw_value), false ));
+        }
+
+        if(aSwitch.isChecked()){
+            cardVisible.setVisibility(View.VISIBLE);
+        }
+
+        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    cardVisible.setVisibility(View.VISIBLE);
+
+                    edit.putString(getActivity().getResources().getString(R.string.sh_sw_user), User.member_info.username);
+                    edit.putBoolean(getActivity().getResources().getString(R.string.sh_sw_value), true);
+                    edit.commit();
+                }
+                else{
+                    cardVisible.setVisibility(View.GONE);
+
+                    edit.putString(getActivity().getResources().getString(R.string.sh_sw_user), User.member_info.username);
+                    edit.putBoolean(getActivity().getResources().getString(R.string.sh_sw_value), false);
+                    edit.commit();
+                }
+            }
+        });
+
+        progressBar = ctx.findViewById(R.id.progressBar);
+        lblMaxZiel = ctx.findViewById(R.id.lbl_max_limit_1);
+        lblMaxZielEdit = ctx.findViewById(R.id.lbl_max_limit_2);
+        lblMaxZiel = ctx.findViewById(R.id.lbl_max_limit_1);
+
+        seekWunschZiel = ctx.findViewById(R.id.seb_max_limit);
+        seekWunschZiel.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                progressBar.setMax(progress);
+
+                lblMaxZiel.setText(progress + " €");
+                lblMaxZielEdit.setText("Maximum bearbeiten (" + progress + " €)");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                Ziele.goal = Integer.toString(seekBar.getProgress());
+                new setZiele().execute(User.member_info.username, Integer.toString(seekBar.getProgress()));
+            }
+        });
+
+        return ctx;
+    }
+
+    private class getZiele extends AsyncTask <String, Void, Ziele>{
+
+        @Override
+        protected Ziele doInBackground(String... strings) {
+            String username = strings[0];
+
+            OkHttpClient client = new OkHttpClient();
+
+            RequestBody formBody = new FormBody.Builder()
+                    .add(getResources().getString(R.string.req_username), username)
+                    .build();
+
+            Request request = new Request.Builder()
+                    .url(getResources().getString(R.string.url_ziele_get))
+                    .post(formBody)
+                    .build();
+
+            try(Response response = client.newCall(request).execute()){
+                if(response.isSuccessful()){
+
+                    String resultResponse = response.body().string();
+
+//                    Log.d("TestApp", resultResponse);
+
+                    Gson gson = new GsonBuilder()
+                            .excludeFieldsWithModifiers()
+                            .create();
+
+                    Ziele ziele = gson.fromJson(resultResponse, Ziele.class);
+
+                    return ziele;
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Ziele ziele) {
+            progressBar.setMax(Integer.parseInt(Ziele.goal));
+            progressBar.setProgress((int) Double.parseDouble(Ziele.current_value));
+
+            lblMaxZiel.setText(Ziele.goal + " €");
+            lblMaxZielEdit.setText("Maximum bearbeiten (" + Ziele.goal + " €)");
+            seekWunschZiel.setProgress((int) Double.parseDouble(Ziele.goal));
+
+            super.onPostExecute(ziele);
+        }
+    }
+
+    private class setZiele extends AsyncTask <String, Void, MessageResponse>{
+
+        @Override
+        protected MessageResponse doInBackground(String... strings) {
+            String username = strings[0];
+            String goal = strings [1];
+
+            OkHttpClient client = new OkHttpClient();
+
+            RequestBody formBody = new FormBody.Builder()
+                    .add(getResources().getString(R.string.req_username), username)
+                    .add(getResources().getString(R.string.req_goal), goal)
+                    .build();
+
+            Request request = new Request.Builder()
+                    .url(getResources().getString(R.string.url_ziele_set))
+                    .post(formBody)
+                    .build();
+
+            try(Response response = client.newCall(request).execute()){
+                if(response.isSuccessful()){
+
+                    String resultResponse = response.body().string();
+
+//                    Log.d("TestApp", resultResponse);
+
+                    Gson gson = new GsonBuilder()
+                            .excludeFieldsWithModifiers()
+                            .create();
+
+                    MessageResponse messageResponse = gson.fromJson(resultResponse, MessageResponse.class);
+
+                    return messageResponse;
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(MessageResponse messageResponse) {
+
+            Toast.makeText(getActivity(), MessageResponse.message, Toast.LENGTH_LONG).show();
+
+            super.onPostExecute(messageResponse);
+        }
     }
 }

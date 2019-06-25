@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import de.philippdalheimer.hskl.eae.classes.ShowWGCodeDialog;
+import de.philippdalheimer.hskl.eae.classes.WG.ShowWGCodeDialog;
 
 public class fragBewohner_einladen extends Fragment {
 

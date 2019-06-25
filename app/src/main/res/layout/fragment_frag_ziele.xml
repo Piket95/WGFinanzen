@@ -20,6 +20,7 @@
         android:layout_width="match_parent" />
 
     <LinearLayout
+        android:id="@+id/linLay_Ziele_Card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -92,7 +93,9 @@
         <SeekBar
             android:id="@+id/seb_max_limit"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:progress="200"
+            android:max="500"/>
 
     </LinearLayout>
 

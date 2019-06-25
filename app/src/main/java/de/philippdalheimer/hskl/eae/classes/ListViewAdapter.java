@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import de.philippdalheimer.hskl.eae.R;
+import de.philippdalheimer.hskl.eae.classes.Artikel.Artikel;
 
 public class ListViewAdapter extends ArrayAdapter<Artikel> {
 
