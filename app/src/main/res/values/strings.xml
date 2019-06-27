@@ -58,9 +58,6 @@
     <!--Main Activity-->
     <string name="main_neu_einloggen">Bitte melden sie sich erneut an!</string>
 
-    <!--Main Menu-->
-    <string name="menu_item_ausloggen"><font fgcolor="#ffd81b60">Ausloggen</font></string>
-
     <!--BottomNav-->
     <string name="menu_wg_beitreten">WG beitreten</string>
 
@@ -75,8 +72,9 @@
     <string name="txt_new_article_datum">Datum</string>
     <string name="txt_new_article_preis">Preis</string>
     <string name="txt_new_article_title">Neuen Artikel hinzufügen</string>
+    <string name="txt_new_article_titel_bearbeiten">Artikel bearbeiten</string>
 
-    <!--artikel Details-->
+    <!--Artikel Details-->
     <string name="kategorie">Kategorie:</string>
     <string name="erstellt_am">Erstellt am:</string>
     <string name="preis">Preis:</string>
@@ -110,5 +108,15 @@
     <string name="category_placeholder">Category</string>
     <string name="price_eur_placeholder">23</string>
     <string name="price_cent_placeholder">,39 €</string>
+
+    <!--Main Menu-->
+    <string name="menu_main_aktualisieren">Aktualisieren</string>
+    <string name="menu_main_wg_verlassen">WG verlassen</string>
+    <string name="menu_main_ausloggen"><font fgcolor="#ffd81b60">Ausloggen</font></string>
+
+    <!--BottomNavigationMenu-->
+    <string name="menu_bnm_feed">Feed</string>
+    <string name="menu_bnm_bewohner_einladen">Bewohner einl.</string>
+    <string name="menu_bnm_ziele">Ziele</string>
 
 </resources>

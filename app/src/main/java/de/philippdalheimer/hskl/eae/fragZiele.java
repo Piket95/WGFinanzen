@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,10 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
+import java.util.Calendar;
 
 import de.philippdalheimer.hskl.eae.classes.MessageResponse;
 import de.philippdalheimer.hskl.eae.classes.user.User;
@@ -40,6 +44,7 @@ public class fragZiele extends Fragment {
     Switch aSwitch;
     LinearLayout cardVisible;
     ProgressBar progressBar;
+    TextView lblMonth;
     TextView lblMaxZiel;
     TextView lblMaxZielEdit;
     SeekBar seekWunschZiel;
@@ -94,9 +99,15 @@ public class fragZiele extends Fragment {
         });
 
         progressBar = ctx.findViewById(R.id.progressBar);
+        lblMonth = ctx.findViewById(R.id.lbl_month);
         lblMaxZiel = ctx.findViewById(R.id.lbl_max_limit_1);
         lblMaxZielEdit = ctx.findViewById(R.id.lbl_max_limit_2);
         lblMaxZiel = ctx.findViewById(R.id.lbl_max_limit_1);
+
+        //Das Label lblMonth soll den aktuellen Monat sowie das aktuelle Jahr beinhalten
+        String[] monate = {"Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"};
+        Calendar calendar = Calendar.getInstance();
+        lblMonth.setText(monate[calendar.get(Calendar.MONTH)] + " " + calendar.get(Calendar.YEAR));
 
         //Verknüpfen der Variable mit der Seekbar ganz unten im Layout
         seekWunschZiel = ctx.findViewById(R.id.seb_max_limit);

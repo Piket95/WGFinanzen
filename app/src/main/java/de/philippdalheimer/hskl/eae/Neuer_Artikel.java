@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -37,6 +38,7 @@ import okhttp3.Response;
 
 public class Neuer_Artikel extends AppCompatActivity implements FloatingActionButton.OnClickListener {
 
+    TextView lblTitle;
     EditText txtName;
     EditText txtBeschreibung;
     Spinner spKategorien;
@@ -46,7 +48,7 @@ public class Neuer_Artikel extends AppCompatActivity implements FloatingActionBu
 
     FloatingActionButton btnSend;
 
-    String artikelID;
+    String artikelID = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +58,18 @@ public class Neuer_Artikel extends AppCompatActivity implements FloatingActionBu
         Intent intent = getIntent();
         artikelID = intent.getStringExtra("ArtikelID");
 
+        lblTitle = findViewById(R.id.lbl_new_article_title);
         txtName = findViewById(R.id.txt_new_article_name);
         txtBeschreibung = findViewById(R.id.txt_new_article_beschreibung);
         spKategorien = findViewById(R.id.txt_new_article_kategorie);
         txtDatum = findViewById(R.id.txt_new_article_datum);
         txtDatum.setOnClickListener(this);
         txtPreis = findViewById(R.id.txt_new_article_preis);
+
+        //Wenn eine ArtikelID vorhanden ist, wird der dort gesetzte Artikel bearbeitet und das soll auch im Titel stehen
+        if(artikelID != null){
+            lblTitle.setText(getResources().getString(R.string.txt_new_article_titel_bearbeiten));
+        }
 
         btnSend = findViewById(R.id.btn_new_article_submit);
         btnSend.setOnClickListener(this);

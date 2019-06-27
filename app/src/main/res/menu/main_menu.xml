@@ -3,9 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/menu_refresh"
+        android:title="@string/menu_main_aktualisieren" />
+    <item
         android:id="@+id/menu_wg_verlassen"
-        android:title="WG verlassen" />
+        android:title="@string/menu_main_wg_verlassen" />
     <item
         android:id="@+id/menu_logout"
-        android:title="Logout" />
+        android:title="@string/menu_main_ausloggen" />
 </menu>

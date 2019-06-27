@@ -4,14 +4,14 @@
 
     <item
         android:icon="@drawable/ic_line_weight_white_24dp"
-        android:title="Feed"
+        android:title="@string/menu_bnm_feed"
         android:id="@+id/nav_feed"/>
     <item
         android:icon="@drawable/ic_person_add_white_24dp"
-        android:title="Bewohner einl."
+        android:title="@string/menu_bnm_bewohner_einladen"
         android:id="@+id/nav_einladen_beitreten"/>
     <item
         android:icon="@drawable/ic_flag_white_24dp"
-        android:title="Ziele"
+        android:title="@string/menu_bnm_ziele"
         android:id="@+id/nav_ziele"/>
 </menu>

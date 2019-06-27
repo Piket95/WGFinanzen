@@ -131,6 +131,14 @@ public class fragFeed extends Fragment{
             }
         });
 
+        //Wenn man in einer WG ist und der Button Hinzufügen nicht sichtbar ist, soll der Button angezeigt werden andernfalls nicht
+        if (!User.member_info.wg_code.equals("-1") && !btnArtikelHinzufügen.isShown()){
+            btnArtikelHinzufügen.show();
+        }
+        else{
+            btnArtikelHinzufügen.hide();
+        }
+
         //Wenn der user ein wgcode besitzt, sprich in einer WG ist, wird die aktuelle Liste der WG über ein POST-Request abgefragt
         if(!User.member_info.wg_code.equals("-1")){
             GetWGListe getWGListe = new GetWGListe();
@@ -152,8 +160,12 @@ public class fragFeed extends Fragment{
         }
     }
 
+    public void refresh(){
+        new GetWGListe().execute(User.member_info.wg_code);
+    }
+
     //POST-Request zum Abruf der WG Liste (Beschreibung des Ablaufs siehe "./classes/user/UserLogin.java") (onPostExecute anders)
-    public class GetWGListe extends AsyncTask<String, Void, ArtikelVonWG> {
+    private class GetWGListe extends AsyncTask<String, Void, ArtikelVonWG> {
 
         @Override
         protected ArtikelVonWG doInBackground(String... strings) {
@@ -217,7 +229,7 @@ public class fragFeed extends Fragment{
     }
 
     //POST-Request zum löschen eines Eintrages aus der WG Liste (Beschreibung des Ablaufs siehe "./classes/user/UserLogin.java") (onPostExecute anders)
-    public class deleteItem extends AsyncTask<String, Void, MessageResponse>{
+    private class deleteItem extends AsyncTask<String, Void, MessageResponse>{
 
         @Override
         protected MessageResponse doInBackground(String... strings) {
