@@ -56,7 +56,7 @@ public class fragZiele extends Fragment {
         ctx = inflater.inflate(R.layout.fragment_frag_ziele, container, false);
 
         //Abrufen der Werte der Ziele des aktuellen Users (POST-Request)
-        new getZiele().execute(User.member_info.username);
+        new getZiele().execute(User.member_info.username, User.member_info.wg_code);
 
         cardVisible = ctx.findViewById(R.id.linLay_Ziele_Card);
 
@@ -139,11 +139,13 @@ public class fragZiele extends Fragment {
         @Override
         protected Ziele doInBackground(String... strings) {
             String username = strings[0];
+            String wgcode = strings[1];
 
             OkHttpClient client = new OkHttpClient();
 
             RequestBody formBody = new FormBody.Builder()
                     .add(getResources().getString(R.string.req_username), username)
+                    .add(getResources().getString(R.string.req_wgcode), wgcode)
                     .build();
 
             Request request = new Request.Builder()
