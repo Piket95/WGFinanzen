@@ -104,11 +104,6 @@ public class fragZiele extends Fragment {
         lblMaxZielEdit = ctx.findViewById(R.id.lbl_max_limit_2);
         lblMaxZiel = ctx.findViewById(R.id.lbl_max_limit_1);
 
-        //Das Label lblMonth soll den aktuellen Monat sowie das aktuelle Jahr beinhalten
-        String[] monate = {"Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"};
-        Calendar calendar = Calendar.getInstance();
-        lblMonth.setText(monate[calendar.get(Calendar.MONTH)] + " " + calendar.get(Calendar.YEAR));
-
         //Verknüpfen der Variable mit der Seekbar ganz unten im Layout
         seekWunschZiel = ctx.findViewById(R.id.seb_max_limit);
         seekWunschZiel.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -169,6 +164,8 @@ public class fragZiele extends Fragment {
 
                     Ziele ziele = gson.fromJson(resultResponse, Ziele.class);
 
+//                    Log.d("TestApp", ziele.current_value);
+
                     return ziele;
 
                 }
@@ -188,6 +185,11 @@ public class fragZiele extends Fragment {
             lblMaxZiel.setText(Ziele.goal + " €");
             lblMaxZielEdit.setText("Maximum bearbeiten (" + Ziele.goal + " €)");
             seekWunschZiel.setProgress((int) Double.parseDouble(Ziele.goal));
+
+            //Das Label lblMonth soll den aktuellen Monat sowie das aktuelle Jahr beinhalten
+            String[] monate = {"Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"};
+            Calendar calendar = Calendar.getInstance();
+            lblMonth.setText(monate[calendar.get(Calendar.MONTH)] + " " + calendar.get(Calendar.YEAR) + " - Aktuell: " + Ziele.current_value + " €");
 
             super.onPostExecute(ziele);
         }
