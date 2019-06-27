@@ -19,6 +19,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import de.philippdalheimer.hskl.eae.classes.artikel.Artikel;
 import de.philippdalheimer.hskl.eae.classes.artikel.ArtikelVonWG;
@@ -213,6 +216,19 @@ public class fragFeed extends Fragment{
         @Override
         protected void onPostExecute(ArtikelVonWG artikelVonWG) {
             super.onPostExecute(artikelVonWG);
+//            DateFormat f = new SimpleDateFormat("dd.MM.yyyy");
+
+            for(Artikel i : ArtikelVonWG.artikel){
+
+//                try{
+//                    i.datum = f.parse(i.datum).toString();
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+
+                i.preis = i.preis + " €";
+            }
+
 
             getActivity().runOnUiThread(new Runnable() {
                 @Override

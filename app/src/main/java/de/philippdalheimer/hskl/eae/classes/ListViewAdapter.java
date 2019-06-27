@@ -72,7 +72,7 @@ public class ListViewAdapter extends ArrayAdapter<Artikel> {
         txtEuro.setText(currentArtikel.getPreis()[0]);
 
         TextView txtCent = listItem.findViewById(R.id.feed_cent);
-        txtCent.setText(", " + currentArtikel.getPreis()[1] + " €");
+        txtCent.setText(", " + currentArtikel.getPreis()[1]);
 
         return listItem;
     }
