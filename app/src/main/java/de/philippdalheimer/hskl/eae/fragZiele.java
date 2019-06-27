@@ -56,7 +56,7 @@ public class fragZiele extends Fragment {
         cardVisible = ctx.findViewById(R.id.linLay_Ziele_Card);
 
         //Initialisierung der SharedPreferences
-        pref = getActivity().getSharedPreferences(getActivity().getResources().getString(R.string.sh_filename), Context.MODE_PRIVATE);
+        pref = getActivity().getSharedPreferences(getActivity().getResources().getString(R.string.sh_filename) + User.member_info.id, Context.MODE_PRIVATE);
         edit = pref.edit();
 
         aSwitch = ctx.findViewById(R.id.swt_ziele_track);

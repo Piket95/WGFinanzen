@@ -10,7 +10,7 @@
     <string name="already_registered">Already registered?</string>
 
     <!--Shared Preferences-->
-    <string name="sh_filename">SwitchValue</string>
+    <string name="sh_filename">Settings_User_</string>
     <string name="sh_sw_user">sw_user</string>
     <string name="sh_sw_value">sw_value</string>
 
