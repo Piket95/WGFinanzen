@@ -13,10 +13,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import de.philippdalheimer.hskl.eae.R;
-import de.philippdalheimer.hskl.eae.classes.Artikel.Artikel;
+import de.philippdalheimer.hskl.eae.classes.artikel.Artikel;
 
 public class ListViewAdapter extends ArrayAdapter<Artikel> {
 
+    //Klasse um eine selbst erstellte Liste zu erzeugen
     private Context context;
     private ArrayList<Artikel> wgArtikelListe;
 
@@ -33,10 +34,13 @@ public class ListViewAdapter extends ArrayAdapter<Artikel> {
 
         View listItem = convertView;
 
+        //Verknüpfung der eigen erstellten ListItem Vorlage mit der ListView für neue Einträge
         if(listItem == null){
             listItem = LayoutInflater.from(context).inflate(R.layout.main_feed_row_item, parent, false);
         }
 
+        //Übergebene Liste mit Artikeln wird übergeben und hier wird für jeden artikel in der Liste ein Listeneintrag anhand
+        //der eigen erstellten Vorlage "main_feed_row_item" angelegt
         Artikel currentArtikel = wgArtikelListe.get(position);
 
         ImageView image = listItem.findViewById(R.id.item_image);

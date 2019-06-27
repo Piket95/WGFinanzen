@@ -22,8 +22,8 @@ import com.google.gson.GsonBuilder;
 import java.io.IOException;
 
 import de.philippdalheimer.hskl.eae.classes.MessageResponse;
-import de.philippdalheimer.hskl.eae.classes.User.User;
-import de.philippdalheimer.hskl.eae.classes.User.Ziele;
+import de.philippdalheimer.hskl.eae.classes.user.User;
+import de.philippdalheimer.hskl.eae.classes.user.Ziele;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -50,23 +50,29 @@ public class fragZiele extends Fragment {
         // Inflate the layout for this fragment
         ctx = inflater.inflate(R.layout.fragment_frag_ziele, container, false);
 
+        //Abrufen der Werte der Ziele des aktuellen Users (POST-Request)
         new getZiele().execute(User.member_info.username);
 
         cardVisible = ctx.findViewById(R.id.linLay_Ziele_Card);
 
+        //Initialisierung der SharedPreferences
         pref = getActivity().getSharedPreferences(getActivity().getResources().getString(R.string.sh_filename), Context.MODE_PRIVATE);
         edit = pref.edit();
 
         aSwitch = ctx.findViewById(R.id.swt_ziele_track);
 
+        //Abfrage über SharedPreferences, ob der Switch vorher schon aktiviert wurde und dementsprechend aktivieren oder deaktiviert lassen
         if(pref.getString(getActivity().getResources().getString(R.string.sh_sw_user), "").equals(User.member_info.username)){
             aSwitch.setChecked(pref.getBoolean(getActivity().getResources().getString(R.string.sh_sw_value), false ));
         }
 
+        //Wenn Switch aktiviert ist, wird auch die Karte mit den Einstellungen sichtbar
         if(aSwitch.isChecked()){
             cardVisible.setVisibility(View.VISIBLE);
         }
 
+        //Wenn der Switch betätigt wird, wird die Karte mit den Einstellungen angezeigt oder versteckt sowie
+        //der Wert ob der Switch an oder aus ist, in der SharedPreferences Datei gespeichert
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -92,10 +98,12 @@ public class fragZiele extends Fragment {
         lblMaxZielEdit = ctx.findViewById(R.id.lbl_max_limit_2);
         lblMaxZiel = ctx.findViewById(R.id.lbl_max_limit_1);
 
+        //Verknüpfen der Variable mit der Seekbar ganz unten im Layout
         seekWunschZiel = ctx.findViewById(R.id.seb_max_limit);
         seekWunschZiel.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                //Wird an der Seekbar gezogen, verändern sich direkt die TextViews und geben den aktuellen Wert an
                 progressBar.setMax(progress);
 
                 lblMaxZiel.setText(progress + " €");
@@ -109,6 +117,8 @@ public class fragZiele extends Fragment {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                //Ist das einstellen der Seekbar abgeschlossen, werden die eingestellten Daten über einen POST-Request an den Server übergeben und dort gespeichert
+                //sowie die Variable "goal" in der Klasse "Ziele" mit dem neuen Wert aktualisiert
                 Ziele.goal = Integer.toString(seekBar.getProgress());
                 new setZiele().execute(User.member_info.username, Integer.toString(seekBar.getProgress()));
             }
@@ -117,6 +127,7 @@ public class fragZiele extends Fragment {
         return ctx;
     }
 
+    //POST-Request zum Abruf der Ziele eines Users (Beschreibung des Ablaufs siehe "./classes/user/UserLogin.java") (onPostExecute anders)
     private class getZiele extends AsyncTask <String, Void, Ziele>{
 
         @Override
@@ -159,6 +170,7 @@ public class fragZiele extends Fragment {
 
         @Override
         protected void onPostExecute(Ziele ziele) {
+            //Die Views erhalten die Werte, welche durch den POST-Request vom Server zurückgegeben wurden
             progressBar.setMax(Integer.parseInt(Ziele.goal));
             progressBar.setProgress((int) Double.parseDouble(Ziele.current_value));
 
@@ -170,6 +182,7 @@ public class fragZiele extends Fragment {
         }
     }
 
+    //POST-Request zum setzen des neuen Ziels eines Users (Beschreibung des Ablaufs siehe "./classes/user/UserLogin.java") (onPostExecute anders)
     private class setZiele extends AsyncTask <String, Void, MessageResponse>{
 
         @Override
@@ -215,6 +228,7 @@ public class fragZiele extends Fragment {
         @Override
         protected void onPostExecute(MessageResponse messageResponse) {
 
+            //Toast wird angezeigt, welcher ausgibt, dass das Ziel erfolgreich (oder nicht erfolgreich) gesetzt wurde
             Toast.makeText(getActivity(), MessageResponse.message, Toast.LENGTH_LONG).show();
 
             super.onPostExecute(messageResponse);

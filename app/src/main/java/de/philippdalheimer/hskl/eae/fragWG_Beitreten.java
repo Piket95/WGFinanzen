@@ -19,10 +19,10 @@ import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 
-import de.philippdalheimer.hskl.eae.classes.User.User;
-import de.philippdalheimer.hskl.eae.classes.User.UserLogin;
-import de.philippdalheimer.hskl.eae.classes.WG.WGBeitreten;
-import de.philippdalheimer.hskl.eae.classes.WG.WGErstellen;
+import de.philippdalheimer.hskl.eae.classes.user.User;
+import de.philippdalheimer.hskl.eae.classes.user.UserLogin;
+import de.philippdalheimer.hskl.eae.classes.wg.WGBeitreten;
+import de.philippdalheimer.hskl.eae.classes.wg.WGErstellen;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -68,7 +68,7 @@ public class fragWG_Beitreten extends Fragment {
             }
         });
 
-        //Verknüpfen des Buttons mit der View und POST Request für WG erstellen ausführen
+        //Verknüpfen des Buttons mit der View und POST-Request für WG erstellen ausführen
         btnWGErstellen = ctx.findViewById(R.id.btn_new_wg);
         btnWGErstellen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +80,7 @@ public class fragWG_Beitreten extends Fragment {
         return ctx;
     }
 
-    //POST Request um der WG mit dem eingegebenen Code beizutreten
+    //POST-Request um der WG mit dem eingegebenen Code beizutreten (Beschreibung des Ablaufs siehe "./classes/user/UserLogin.java") (onPostExecute anders)
     private class enterWG extends AsyncTask<String, Void, WGBeitreten> {
 
         @Override
@@ -130,14 +130,14 @@ public class fragWG_Beitreten extends Fragment {
 
             Toast.makeText(getContext(), WGBeitreten.message, Toast.LENGTH_LONG).show();
 
-            //Erneute Anmeldung (als Refresh der Userinformationen)
+            //Erneute Anmeldung (als Refresh der Userinformationen), da sich die WG geändert hat bzw. der wgcode
             new UserLogin(getActivity()).execute(User.member_info.username, User.member_info.password_clear);
 
             super.onPostExecute(wgBeitreten);
         }
     }
 
-    //POST Request um neue WG zu erstellen
+    //POST Request um neue WG zu erstellen (Beschreibung des Ablaufs siehe "./classes/user/UserLogin.java") (onPostExecute anders)
     private class newWG extends AsyncTask<String, Void, WGErstellen>{
 
         @Override
@@ -185,7 +185,7 @@ public class fragWG_Beitreten extends Fragment {
 
             Toast.makeText(getContext(), WGErstellen.message, Toast.LENGTH_LONG).show();
 
-            //Erneute Anmeldung (als Refresh der Userinformationen)
+            //Erneute Anmeldung (als Refresh der Userinformationen), da sich die WG geändert hat bzw. der wgcode
             new UserLogin(getActivity()).execute(User.member_info.username, User.member_info.password_clear);
 
             super.onPostExecute(wgErstellen);

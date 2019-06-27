@@ -135,8 +135,6 @@
                 android:hint="Password"
                 android:inputType="textPassword" />
 
-            <!--TODO: 2. Passwortfeld entfernen DESIGN-->
-
             <EditText
                 android:id="@+id/txt_register_password_2"
                 android:layout_width="match_parent"

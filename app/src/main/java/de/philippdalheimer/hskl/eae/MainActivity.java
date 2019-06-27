@@ -17,8 +17,8 @@ import com.google.gson.GsonBuilder;
 import java.io.IOException;
 
 import de.philippdalheimer.hskl.eae.classes.MessageResponse;
-import de.philippdalheimer.hskl.eae.classes.User.User;
-import de.philippdalheimer.hskl.eae.classes.User.UserLogin;
+import de.philippdalheimer.hskl.eae.classes.user.User;
+import de.philippdalheimer.hskl.eae.classes.user.UserLogin;
 import de.philippdalheimer.hskl.eae.classes.ViewPagerAdapter;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -37,22 +37,29 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Neuer ViewPagerAdapter wird angelegt und mit ViewPager vom Layout verknüpft (zum Swipen zwischen den 3 Fragmenten)
         viewPager = findViewById(R.id.viewPager);
         viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
         viewPager.addOnPageChangeListener(this);
 
+        //BottomNavigationView wird mit Variable verknüpft und mit einem ItemSelectedListener versehen, welcher ausgelöst wird, wenn auf eines der Items
+        //manuell geklickt wird (onNavigationItemSelected)
         navigationView = findViewById(R.id.navigation);
         navigationView.setOnNavigationItemSelectedListener(this);
 
+        //Gehört der User keiner WG an, so bekommt der 2. Eintrag in der BottomNavigationView den Titel "WG beitreten" und das Icon ändert sich
+        //Ausserdem startet der Nutzer direkt auf der 2. Seite der BottomNavView um direkt eine neue WG zu erstellen oder einer bestehenden beizutreten
         if(User.member_info.wg_code.equals("-1")){
             bottomNavMenu = navigationView.getMenu();
             MenuItem groupPersonAdd = bottomNavMenu.findItem(R.id.nav_einladen_beitreten);
             groupPersonAdd.setIcon(R.drawable.ic_group_add_white_24dp);
-            groupPersonAdd.setTitle("WG beitreten");
+            groupPersonAdd.setTitle(getResources().getString(R.string.menu_wg_beitreten));
             navigationView.setSelectedItemId(R.id.nav_einladen_beitreten);
         }
     }
 
+    //Wenn das Menü oben rechts in der Ecke erstellt wird, wird geprüft, ob der User einer WG angehört
+    //wenn Ja, wird der Eintrag "WG verlassen angezeigt". Gehört er keiner WG an, wir der Eintrag nicht angezeigt
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -64,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return super.onCreateOptionsMenu(menu);
     }
 
+    //Hier wird überprüft, auf welchen Eintrag des Menüs oben rechts geklickt wurde und was dann passiert
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -71,10 +79,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         switch (item.getItemId()){
             case R.id.menu_wg_verlassen:
+                //POST-Request an Server, dass aktuelle WG verlassen wird und anschließendes neues einloggen, um die Userinformationen zu aktualisieren
                 new sendWGLeave().execute(User.member_info.username, User.member_info.wg_code);
                 new UserLogin(this).execute(User.member_info.username, User.member_info.password_clear);
                 break;
             case R.id.menu_logout:
+                //Beim Logout, wird die Activity "LoginActivity" gestartet und die aktuelle Activity gestoppt
                 startActivity(login);
                 finish();
                 break;
@@ -83,13 +93,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-//        new getWGList().execute("896142");
-    }
-
+    //Je nachdem welche Seite durch einen Swipe des ViewPagers aktuell sichtbar ist, wird auch dementsprechend das dazugehörige Item der BottomNavigationView ausgewählt
     @Override
     public void onPageSelected(int i) {
         switch (i){
@@ -105,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
     }
 
+    //Je nachdem welche Seite durch einen Klick der BottomNavigationView ausgewählt wurde, wird auch dementsprechend die dazugehörige Seite im ViewPager angezeigt
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
@@ -133,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         //Nothing to put in here!
     }
 
+    //POST-Request zum senden des Befehls "WG verlassen" (Beschreibung des Ablaufs siehe "./classes/user/UserLogin.java") (onPostExecute anders)
     private class sendWGLeave extends AsyncTask <String, Void, MessageResponse>{
 
         @Override
@@ -144,12 +150,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             OkHttpClient client = new OkHttpClient();
 
             RequestBody formBody = new FormBody.Builder()
-                    .add("username", username)
-                    .add("wgcode", wgcode)
+                    .add(getResources().getString(R.string.req_username), username)
+                    .add(getResources().getString(R.string.req_wgcode), wgcode)
                     .build();
 
             Request request = new Request.Builder()
-                    .url("https://hskl.philippdalheimer.de/api/wg/leave")
+                    .url(getResources().getString(R.string.url_wg_verlassen))
                     .post(formBody)
                     .build();
 
@@ -176,6 +182,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         @Override
         protected void onPostExecute(MessageResponse messageResponse) {
 
+            //Ausgabe der Nachricht der Rückgabe des POST-Requests in einem Toast
             Toast.makeText(MainActivity.this, messageResponse.message, Toast.LENGTH_LONG).show();
 
             super.onPostExecute(messageResponse);

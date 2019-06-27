@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import de.philippdalheimer.hskl.eae.classes.WG.ShowWGCodeDialog;
+import de.philippdalheimer.hskl.eae.classes.wg.ShowWGCodeDialog;
 
 public class fragBewohner_einladen extends Fragment {
 
@@ -21,6 +21,7 @@ public class fragBewohner_einladen extends Fragment {
         // Inflate the layout for this fragment
         ctx = inflater.inflate(R.layout.fragment_frag_bewohner_einladen, container, false);
 
+        //Beim klick auf den Button "WG-Code anzeigen" wird der selbst erstellte Dialog (dialog_show_wg_code.xml) erstellt und angezeigt
         btnShowCode = ctx.findViewById(R.id.btn_show_wg_code);
         btnShowCode.setOnClickListener(new View.OnClickListener() {
             @Override

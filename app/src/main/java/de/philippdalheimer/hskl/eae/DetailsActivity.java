@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import de.philippdalheimer.hskl.eae.classes.Artikel.Artikel;
-import de.philippdalheimer.hskl.eae.classes.Artikel.ArtikelVonWG;
+import de.philippdalheimer.hskl.eae.classes.artikel.Artikel;
+import de.philippdalheimer.hskl.eae.classes.artikel.ArtikelVonWG;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -31,6 +31,7 @@ public class DetailsActivity extends AppCompatActivity {
 
 //        Log.d("TestApp", "ID: " + strId);
 
+        //Verknüpfen der Variablen mit den Views des Layouts "activity_details.xml"
         imgCategorieIcon = findViewById(R.id.img_details_kategorie);
         lblArtikelname = findViewById(R.id.lbl_details_artikelname);
         lblBeschreibung = findViewById(R.id.lbl_details_beschreibung);
@@ -39,6 +40,7 @@ public class DetailsActivity extends AppCompatActivity {
         lblPreis = findViewById(R.id.lbl_details_preis);
         lblErsteller = findViewById(R.id.lbl_details_erstellt_von);
 
+        //Alle artikel werden durchsucht und der artikel rausgesucht, welcher die ID des angeklickten Artikels hat
         for(Artikel i : ArtikelVonWG.artikel){
             if(i.id.equals(strId)){
 //                Log.d("TestApp", i.name);
@@ -60,6 +62,7 @@ public class DetailsActivity extends AppCompatActivity {
                         break;
                 }
 
+                //Die Daten des angeklickten Artikels werden ausgelesen und in die Views geschrieben
                 lblArtikelname.setText(i.name);
                 lblBeschreibung.setText(i.beschreibung);
                 lblKategorie.setText(i.category);

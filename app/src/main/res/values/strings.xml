@@ -1,22 +1,13 @@
 <resources>
     <string name="app_name">WG-Finanzen</string>
+
+    <!--Login / Register-->
     <string name="login">Login</string>
     <string name="username_hint">Username</string>
     <string name="not_registered_yet">Not registered yet?</string>
     <string name="signup">Signup</string>
     <string name="register">Register</string>
     <string name="already_registered">Already registered?</string>
-
-    <string name="txt_new_article_name">Name</string>
-    <string name="txt_new_article_beschreibung">Beschreibung</string>
-    <string name="txt_new_article_datum">Datum</string>
-    <string name="txt_new_article_preis">Preis</string>
-    <string name="txt_new_article_title">Neuen Artikel hinzufügen</string>
-    <string name="wg_code_eingeben">WG-Code eingeben</string>
-    <string name="du_m_chtest_einer_wg_beitreten_dann_frag_nach_dem_wg_code_und_dann_kann_s_schon_los_gehen">Du möchtest einer WG beitreten? Dann frag\' nach dem WG-Code und dann kann\'s schon los gehen!</string>
-    <string name="eigene_ausgaben_tracken">Eigene Ausgaben tracken</string>
-    <string name="ausgaben_im_monat">Ausgaben im Monat</string>
-    <string name="m_rz_2019">März 2019</string>
 
     <!--Shared Preferences-->
     <string name="sh_filename">SwitchValue</string>
@@ -30,11 +21,28 @@
     <string name="url_wg_erstellen">https://hskl.philippdalheimer.de/api/wg/create</string>
     <string name="url_ziele_get">https://hskl.philippdalheimer.de/api/member/get_goal</string>
     <string name="url_ziele_set">https://hskl.philippdalheimer.de/api/member/set_goal</string>
+    <string name="url_art_hinz">https://hskl.philippdalheimer.de/api/artikel/create</string>
+    <string name="url_art_edit">https://hskl.philippdalheimer.de/api/artikel/edit</string>
+    <string name="url_categorie">https://hskl.philippdalheimer.de/api/artikel/get_categories</string>
+    <string name="url_wg_verlassen">https://hskl.philippdalheimer.de/api/wg/leave</string>
+    <string name="url_art_remove">https://hskl.philippdalheimer.de/api/artikel/remove</string>
+    <string name="url_art_get">https://hskl.philippdalheimer.de/api/artikel/get</string>
 
     <!--Post Requests -->
     <string name="req_username">username</string>
     <string name="req_password">password</string>
     <string name="req_wgcode">wgcode</string>
+    <string name="req_art_name">art_name</string>
+    <string name="req_art_beschreibung">art_beschreibung</string>
+    <string name="req_art_cat_id">art_cat_id</string>
+    <string name="req_art_datum">art_datum</string>
+    <string name="req_art_preis">art_preis</string>
+    <string name="req_artikel_id">artikel_id</string>
+    <string name="req_artikel_name">artikel_name</string>
+    <string name="req_artikel_beschreibung">artikel_beschreibung</string>
+    <string name="req_artikel_cat_id">artikel_cat_id</string>
+    <string name="req_artikel_datum">artikel_datum</string>
+    <string name="req_artikel_preis">artikel_preis</string>
     <string name="req_goal">goal</string>
 
     <!--Login Activity-->
@@ -53,8 +61,28 @@
     <!--Main Menu-->
     <string name="menu_item_ausloggen"><font fgcolor="#ffd81b60">Ausloggen</font></string>
 
-    <!--Neuen Artikel anlegen-->
+    <!--BottomNav-->
+    <string name="menu_wg_beitreten">WG beitreten</string>
+
+    <!--Feed-->
+    <string name="feed_bearbeiten">Bearbeiten</string>
+    <string name="feed_loeschen">Löschen</string>
+
+    <!--Neuen artikel anlegen-->
     <string name="art_anlegen_success">Artikel wurde angelegt.</string>
+    <string name="txt_new_article_name">Name</string>
+    <string name="txt_new_article_beschreibung">Beschreibung</string>
+    <string name="txt_new_article_datum">Datum</string>
+    <string name="txt_new_article_preis">Preis</string>
+    <string name="txt_new_article_title">Neuen Artikel hinzufügen</string>
+
+    <!--artikel Details-->
+    <string name="kategorie">Kategorie:</string>
+    <string name="erstellt_am">Erstellt am:</string>
+    <string name="preis">Preis:</string>
+    <string name="erstellt_von">Erstellt von:</string>
+    <string name="name_des_artikels">Name des Artikels</string>
+    <string name="placeholder_text">Greyhound divisively hello coldly wonderfully marginally far.</string>
 
     <!--Dialogs-->
     <string name="diaEnter_hint">000000</string>
@@ -62,19 +90,22 @@
     <string name="diaEnter_title">WG-Code eingeben</string>
     <string name="diaShow_title">WG-Code weitergeben</string>
     <string name="dia_Ok">Ok</string>
-    <string name="name_des_artikels">Name des Artikels</string>
-    <string name="placeholder_text">Greyhound divisively hello coldly wonderfully marginally far.</string>
-    <string name="kategorie">Kategorie:</string>
-    <string name="erstellt_am">Erstellt am:</string>
-    <string name="preis">Preis:</string>
-    <string name="erstellt_von">Erstellt von:</string>
+    <string name="wg_code_eingeben">WG-Code eingeben</string>
+    <string name="du_m_chtest_einer_wg_beitreten_dann_frag_nach_dem_wg_code_und_dann_kann_s_schon_los_gehen">Du möchtest einer WG beitreten? Dann frag\' nach dem WG-Code und dann kann\'s schon los gehen!</string>
     <string name="bewohner_einladen">Bewohner einladen</string>
     <string name="einladen_beschreibung">Zeige einem WG-Mitglied den WG Code, damit dieser der WG beitreten und die Services nutzen kann.</string>
     <string name="wg_code_anzeigen">WG-CODE ANZEIGEN</string>
     <string name="neue_wg_anlegen">Neue WG anlegen</string>
     <string name="neuewg_beschreibung">Du möchtest eine neue WG anlegen? Dann klick hier :-)</string>
+
+    <!--Ziele-->
     <string name="sample_goal">200 €</string>
     <string name="sample_goal_2">Maximum bearbeiten (200 €):</string>
+    <string name="eigene_ausgaben_tracken">Eigene Ausgaben tracken</string>
+    <string name="ausgaben_im_monat">Ausgaben im Monat</string>
+    <string name="m_rz_2019">März 2019</string>
+
+    <!--Feed Layout-->
     <string name="title_heading_placeholder">Title Heading</string>
     <string name="category_placeholder">Category</string>
     <string name="price_eur_placeholder">23</string>

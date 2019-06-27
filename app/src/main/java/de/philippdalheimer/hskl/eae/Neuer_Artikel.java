@@ -23,12 +23,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import de.philippdalheimer.hskl.eae.classes.Artikel.Artikel;
-import de.philippdalheimer.hskl.eae.classes.Artikel.ArtikelVonWG;
-import de.philippdalheimer.hskl.eae.classes.Artikel.KategorieItem;
+import de.philippdalheimer.hskl.eae.classes.artikel.Artikel;
+import de.philippdalheimer.hskl.eae.classes.artikel.ArtikelVonWG;
+import de.philippdalheimer.hskl.eae.classes.artikel.KategorieItem;
 import de.philippdalheimer.hskl.eae.classes.MessageResponse;
-import de.philippdalheimer.hskl.eae.classes.Artikel.Kategorien;
-import de.philippdalheimer.hskl.eae.classes.User.User;
+import de.philippdalheimer.hskl.eae.classes.artikel.Kategorien;
+import de.philippdalheimer.hskl.eae.classes.user.User;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -82,6 +82,7 @@ public class Neuer_Artikel extends AppCompatActivity implements FloatingActionBu
     @Override
     public void onClick(View v) {
 
+        //Wenn auf den DatePicker geklickt wurde, wird ein DatePickerDialog generiert und angezeigt
         if(v.getId() == R.id.txt_new_article_datum) {
             Calendar cal = Calendar.getInstance();
             int y = cal.get(Calendar.YEAR);
@@ -103,27 +104,29 @@ public class Neuer_Artikel extends AppCompatActivity implements FloatingActionBu
             ArrayList<String> list = new ArrayList<>();
             ArrayList<String> errors = new ArrayList<>();
 
-            String name = txtName.getText().toString();
-            String beschreibung = txtBeschreibung.getText().toString();
-            String kategorie = Integer.toString(spKategorien.getSelectedItemPosition() + 1);
-            String datum = txtDatum.getText().toString();
-            String preis = txtPreis.getText().toString();
-            String error = "";
+            String error;
+
+            //Wird auf den Button mit dem Häckchen geklickt, werden die Werte der Views in einer Liste gespeichert
+            list.add(txtName.getText().toString());
+            list.add(txtBeschreibung.getText().toString());
+            list.add(Integer.toString(spKategorien.getSelectedItemPosition() + 1));
+            list.add(txtDatum.getText().toString());
+            list.add(txtPreis.getText().toString());
 
             // check, ob alle felder ausgefüllt sind
-            if(name.equals(""))
+            if(list.get(0).equals(""))
             {
                 errors.add("Name");
             }
-            if(beschreibung.equals(""))
+            if(list.get(1).equals(""))
             {
                 errors.add("Beschreibung");
             }
-            if(datum.equals(""))
+            if(list.get(3).equals(""))
             {
                 errors.add("Datum");
             }
-            if(preis.equals(""))
+            if(list.get(4).equals(""))
             {
                 errors.add("Preis");
             }
@@ -149,16 +152,12 @@ public class Neuer_Artikel extends AppCompatActivity implements FloatingActionBu
                 return;
             }
 
-            list.add(name);
-            list.add(beschreibung);
-            list.add(kategorie);
-            list.add(datum);
-            list.add(preis);
-
 //            for(String i : list){
 //                Log.d("TestApp", i);
 //            }
 
+            //Wurde eine ArtikelID von der Activity davor mitgegeben, wird der Inhalt der Liste über die "Artikel bearbeiten" API an den Server via POST geschickt
+            //Wurde keine ID mitgegeben wird der Inhalt der Liste über die "Neuer Artikel anlegen" API an den Server via POST geschickt
             if(artikelID != null){
                 new sendArtikelBearbeiten().execute(User.member_info.username, User.member_info.wg_code, artikelID, list.get(0), list.get(1), list.get(2), list.get(3), list.get(4));
             }
@@ -168,6 +167,7 @@ public class Neuer_Artikel extends AppCompatActivity implements FloatingActionBu
         }
     }
 
+    //POST-Request zum Anlegen eines neuen Artikels (Beschreibung des Ablaufs siehe "./classes/user/UserLogin.java") (onPostExecute anders)
     private class sendNeuerArtikel extends AsyncTask<String, Void, MessageResponse>{
 
         @Override
@@ -183,17 +183,17 @@ public class Neuer_Artikel extends AppCompatActivity implements FloatingActionBu
             OkHttpClient client = new OkHttpClient();
 
             RequestBody formBody = new FormBody.Builder()
-                    .add("username", username)
-                    .add("wgcode", wgcode)
-                    .add("art_name", art_name)
-                    .add("art_beschreibung", art_beschreibung)
-                    .add("art_cat_id", art_cat_id)
-                    .add("art_datum", art_datum)
-                    .add("art_preis", art_preis)
+                    .add(getResources().getString(R.string.req_username), username)
+                    .add(getResources().getString(R.string.req_wgcode), wgcode)
+                    .add(getResources().getString(R.string.req_art_name), art_name)
+                    .add(getResources().getString(R.string.req_art_beschreibung), art_beschreibung)
+                    .add(getResources().getString(R.string.req_art_cat_id), art_cat_id)
+                    .add(getResources().getString(R.string.req_art_datum), art_datum)
+                    .add(getResources().getString(R.string.req_art_preis), art_preis)
                     .build();
 
             Request request = new Request.Builder()
-                    .url("https://hskl.philippdalheimer.de/api/artikel/create")
+                    .url(getResources().getString(R.string.url_art_hinz))
                     .post(formBody)
                     .build();
 
@@ -201,15 +201,15 @@ public class Neuer_Artikel extends AppCompatActivity implements FloatingActionBu
 
                 String resultResponse = response.body().string();
 
-//                Gson gson = new GsonBuilder()
-//                        .excludeFieldsWithModifiers()
-//                        .create();
-//
-//                MessageResponse messageResponse = gson.fromJson(resultResponse, MessageResponse.class);
+                Gson gson = new GsonBuilder()
+                        .excludeFieldsWithModifiers()
+                        .create();
 
-//                Log.d("TestApp", "[Artikel anlegen Response] " + resultResponse);
+                MessageResponse messageResponse = gson.fromJson(resultResponse, MessageResponse.class);
 
-                return null;
+//                Log.d("TestApp", "[artikel anlegen Response] " + resultResponse);
+
+                return messageResponse;
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -222,15 +222,16 @@ public class Neuer_Artikel extends AppCompatActivity implements FloatingActionBu
         protected void onPostExecute(MessageResponse messageResponse) {
             super.onPostExecute(messageResponse);
 
-            //Unschön ich weiß aber es kommt irgendwie ein json mit 13 vorher zurück welches nicht deserialisiert werden kann!
-            //13{"success":true,"message":"Artikel wurde angelegt."}
-            Toast.makeText(Neuer_Artikel.this, getResources().getString(R.string.art_anlegen_success), Toast.LENGTH_LONG).show();
+            //Ausgabe der zurückgegebenen Nachricht des POST-Requests über einen Toast an den Nutzer
+            Toast.makeText(Neuer_Artikel.this, messageResponse.message, Toast.LENGTH_LONG).show();
 
+            //Der Activity welche diese Activity aufgerufen hat, wird über "setResult" mitgeteilt, dass diese Activity mit ihrer Arbeit fertig ist und wird daraufhin beendet
             setResult(Activity.RESULT_OK);
             finish();
         }
     }
 
+    //POST-Request zum Bearbeiten eines Artikels (Beschreibung des Ablaufs siehe "./classes/user/UserLogin.java") (onPostExecute anders)
     private class sendArtikelBearbeiten extends AsyncTask<String, Void, MessageResponse>{
 
         @Override
@@ -247,18 +248,18 @@ public class Neuer_Artikel extends AppCompatActivity implements FloatingActionBu
             OkHttpClient client = new OkHttpClient();
 
             RequestBody formBody = new FormBody.Builder()
-                    .add("username", username)
-                    .add("wgcode", wgcode)
-                    .add("artikel_id", artikel_id)
-                    .add("artikel_name", artikel_name)
-                    .add("artikel_beschreibung", artikel_beschreibung)
-                    .add("artikel_cat_id", artikel_cat_id)
-                    .add("artikel_datum", artikel_datum)
-                    .add("artikel_preis", artikel_preis)
+                    .add(getResources().getString(R.string.req_username), username)
+                    .add(getResources().getString(R.string.req_wgcode), wgcode)
+                    .add(getResources().getString(R.string.req_artikel_id), artikel_id)
+                    .add(getResources().getString(R.string.req_artikel_name), artikel_name)
+                    .add(getResources().getString(R.string.req_artikel_beschreibung), artikel_beschreibung)
+                    .add(getResources().getString(R.string.req_artikel_cat_id), artikel_cat_id)
+                    .add(getResources().getString(R.string.req_artikel_datum), artikel_datum)
+                    .add(getResources().getString(R.string.req_artikel_preis), artikel_preis)
                     .build();
 
             Request request = new Request.Builder()
-                    .url("https://hskl.philippdalheimer.de/api/artikel/edit")
+                    .url(getResources().getString(R.string.url_art_edit))
                     .post(formBody)
                     .build();
 
@@ -288,13 +289,16 @@ public class Neuer_Artikel extends AppCompatActivity implements FloatingActionBu
         protected void onPostExecute(MessageResponse messageResponse) {
             super.onPostExecute(messageResponse);
 
+            //Ausgabe der zurückgegebenen Nachricht des POST-Requests über einen Toast an den Nutzer
             Toast.makeText(Neuer_Artikel.this, MessageResponse.message, Toast.LENGTH_LONG).show();
 
+            //Der Activity welche diese Activity aufgerufen hat, wird über "setResult" mitgeteilt, dass diese Activity mit ihrer Arbeit fertig ist und wird daraufhin beendet
             setResult(Activity.RESULT_OK);
             finish();
         }
     }
 
+    //POST-Request zum Abruf der Kategorien (Beschreibung des Ablaufs siehe "./classes/user/UserLogin.java") (onPostExecute anders)
     private class getCategories extends AsyncTask<String, Void, Kategorien>{
 
         @Override
@@ -306,7 +310,7 @@ public class Neuer_Artikel extends AppCompatActivity implements FloatingActionBu
                     .build();
 
             Request request = new Request.Builder()
-                    .url("https://hskl.philippdalheimer.de/api/artikel/get_categories")
+                    .url(getResources().getString(R.string.url_categorie))
                     .post(formBody)
                     .build();
 
@@ -336,16 +340,21 @@ public class Neuer_Artikel extends AppCompatActivity implements FloatingActionBu
         protected void onPostExecute(Kategorien kategorien) {
             super.onPostExecute(kategorien);
 
+            //Alle Kategorien die nun durch den POST-Request in der Klasse Kategorien in der Variable categories gespeichert wurden, werden nun alle durchgegangen und deren Namen in einer
+            //neuen ArrayList gespeichert
             final ArrayList<String> katNamen = new ArrayList<>();
 
             for(KategorieItem i : kategorien.categories){
                 katNamen.add(i.name);
             }
-//
+
+            //Der Spinner des Layouts dieser Activity bekommt nun die Namen aller Kategorien als Liste übermittelt und kann diese nun somit auch anzeigen
             ArrayAdapter<String> adapter = new ArrayAdapter(Neuer_Artikel.this, android.R.layout.simple_spinner_dropdown_item, katNamen);
 //            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spKategorien.setAdapter(adapter);
 
+            //Wurde von der Activity, welche diese hier aufgerufen hat eine ArtikelID übergeben, werden alle Daten des Artikels dieser ID in die vorhandenen
+            //Views des Layouts geschrieben (Artikel bearbeiten)
             if(artikelID != null){
                 for (Artikel i : ArtikelVonWG.artikel){
                     if(i.id.equals(artikelID)){

@@ -18,7 +18,7 @@ import com.google.gson.GsonBuilder;
 import java.io.IOException;
 
 import de.philippdalheimer.hskl.eae.classes.MessageResponse;
-import de.philippdalheimer.hskl.eae.classes.User.UserLogin;
+import de.philippdalheimer.hskl.eae.classes.user.UserLogin;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -26,9 +26,6 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
-
-    //TODO: !ALLE! STRINGS MÜSSEN NOCH IN STRING RESOURCE DATEI AUSGELAGERT WERDEN!
-    //TODO: !ALLE! Dateien müssen noch kommentiert werden!
 
     Button btnLogin;
     Button btnRegister;
@@ -46,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         //Versteckt die Autogenerierte Actionbar im oberen Teil der App!
         getSupportActionBar().hide();
 
+        //Bei Klick auf Login, werden die eingegeben Daten in den TextViews an die Klasse UserLogin im Ordner user übergeben und dort dann an den Server zum abgleich geschickt
         btnLogin = findViewById(R.id.btn_login);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
                 EditText txtUsername = findViewById(R.id.txt_login_username);
                 EditText txtPassword = findViewById(R.id.txt_login_password);
 
+                //Prüfen, dass keine TextView leer ist
                 if(!TextUtils.isEmpty(txtUsername.getText().toString()) || !TextUtils.isEmpty(txtPassword.getText().toString())){
                     //Aufruf der Klasse UserLogin, um die Anmeldeinformationen mit den Datenbank abzugleichen (POST Request)
                     new UserLogin(LoginActivity.this).execute(txtUsername.getText().toString(), txtPassword.getText().toString());
@@ -63,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        //Hier wird ein neuer User registriert
         btnRegister = findViewById(R.id.btn_register);
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,9 +71,12 @@ public class LoginActivity extends AppCompatActivity {
                 EditText txtRegPass = findViewById(R.id.txt_register_password_1);
                 EditText txtRegConfPass = findViewById(R.id.txt_register_password_2);
 
+                //Prüfung, dass keine TextView leer ist
                 if(!TextUtils.isEmpty(txtRegUsername.getText().toString()) || !TextUtils.isEmpty(txtRegPass.getText().toString()) || !TextUtils.isEmpty(txtRegConfPass.getText().toString())){
 
+                    //Prüfen, ob die beiden Passwortfelder den gleichen Inhalt haben
                     if(txtRegPass.getText().toString().equals(txtRegConfPass.getText().toString())){
+                        //Daten werden an Server geschickt und neuer User wird in Datenbank angelegt
                         PostRequestRegister postRequestRegister = new PostRequestRegister();
                         postRequestRegister.execute(txtRegUsername.getText().toString(), txtRegPass.getText().toString());
 
@@ -175,6 +178,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void run() {
                             progressDialog.cancel();
 
+                            //Wenn neuer Nutzer erfolgreich angelegt wurde, wird ein Toast ausgegeben und der Nutzer mit den eingegeben Daten direkt angemeldet
                             Toast.makeText(getApplicationContext(), messageResponse.message, Toast.LENGTH_LONG).show();
                             new UserLogin(LoginActivity.this).execute(username,pass);
                         }
@@ -186,12 +190,14 @@ public class LoginActivity extends AppCompatActivity {
                         public void run() {
                             progressDialog.cancel();
 
+                            //Konnte der Nutzer nicht registriert werden, wird die Fehlermeldung, die zurückgeliefert wird als Toast ausgegeben
                             Toast.makeText(getApplicationContext(), messageResponse.message, Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
             }
             else{
+                //Sollte es zu unvorhergesehenen Fehlern kommen, wird diese Fehlermeldung als Toast ausgegeben
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.login_irgendwas_schiefgelaufen), Toast.LENGTH_SHORT).show();
 
             }
